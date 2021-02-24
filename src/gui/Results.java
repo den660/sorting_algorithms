@@ -6,7 +6,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
 public class Results {
+
+
     private Label comparisonsLabel;
+    private Label arrayAccessesLabel;
+
 
     private HBox elements;
 
@@ -14,9 +18,15 @@ public class Results {
         return elements;
     }
 
+    public void update(int comparisons, int arrayAccesses){
+        comparisonsLabel.setText("comparisons: " + comparisons);
+        arrayAccessesLabel.setText("array accesses: " + arrayAccesses);
+    }
+
     public Results(){
-        comparisonsLabel = new Label("Comparisons: ");
-        elements = new HBox(comparisonsLabel);
+        comparisonsLabel = new Label("comparisons: 0");
+        arrayAccessesLabel = new Label("array accesses: 0");
+        elements = new HBox(comparisonsLabel, arrayAccessesLabel);
         elements.setSpacing(10);
         elements.setPadding(new Insets(10,10,10,10));
         elements.setAlignment(Pos.BOTTOM_CENTER);

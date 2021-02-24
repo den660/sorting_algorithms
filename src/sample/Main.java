@@ -1,5 +1,7 @@
 package sample;
 
+import algorithms.Bubblesort;
+import algorithms.SortingAlgorithm;
 import gui.BarGraph;
 import gui.Results;
 import gui.UserInputs;
@@ -22,9 +24,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        BarGraph barGraph = new BarGraph();
-        UserInputs userInputs = new UserInputs(barGraph);
+        SortingAlgorithm[] sortingAlgorithms = {new Bubblesort()};
         Results results = new Results();
+        BarGraph barGraph = new BarGraph();
+        UserInputs userInputs = new UserInputs(barGraph, results, sortingAlgorithms);
+
 
         VBox vBox = new VBox(userInputs.getElements(), results.getElements(), barGraph.getElement());
 

@@ -1,5 +1,7 @@
 package gui;
 
+import algorithms.Bubblesort;
+import algorithms.SortingAlgorithm;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -11,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -29,6 +32,8 @@ public class UserInputs{
     private HBox elements;
     private BarGraph barGraph;
     private int[] numberArray;
+    private Bubblesort bubblesort;
+    private SortingAlgorithm sortingAlgorithm;
 
     public HBox getElements() {
         return elements;
@@ -55,7 +60,16 @@ public class UserInputs{
         return ar;
     }
 
-    public UserInputs(BarGraph barGraph){
+    private SortingAlgorithm getSortingAlgorithmByName(String name, SortingAlgorithm[] sortingAlgorithms){
+        for(SortingAlgorithm sortingAlgorithm : sortingAlgorithms){
+            if(sortingAlgorithm.getName().equals(name)){
+                return sortingAlgorithm;
+            }
+        }
+        return null;
+    }
+
+    public UserInputs(BarGraph barGraph, Results results, SortingAlgorithm[] sortingAlgorithms){
         this.barGraph = barGraph;
         numberArray = createNumberArray(defaultNumber);
         barGraph.drawGraph(numberArray);
@@ -84,15 +98,34 @@ public class UserInputs{
         });
 
         choiceBox = new ChoiceBox();
-        choiceBox.getItems().add("Bubblesort");
-        choiceBox.getItems().add("Quicksort");
+        for(SortingAlgorithm sortingAlgorithm : sortingAlgorithms){
+            choiceBox.getItems().add(sortingAlgorithm.getName());
+        }
+
+        choiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                sortingAlgorithm = getSortingAlgorithmByName(choiceBox.getItems().get(0).toString(), sortingAlgorithms);
+                sortingAlgorithm.init();
+            }
+        });
 
         sliderLabel = new Label("Delay: ");
         slider = new Slider(0,100,50);
         sliderBox = new VBox(sliderLabel, slider);
 
+        bubblesort = new Bubblesort();
         startButton = new Button("auto");
         stepButton = new Button("step");
+        stepButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                numberArray = sortingAlgorithm.sort(numberArray);
+                System.out.println(Arrays.toString(numberArray));
+                barGraph.drawGraph(numberArray);
+                results.update(sortingAlgorithm.getComparisons(), sortingAlgorithm.getArrayAccesses());
+            }
+        });
 
         elements = new HBox(numbersBox, shuffleButton, choiceBox, sliderBox, startButton, stepButton);
         elements.setSpacing(10);
