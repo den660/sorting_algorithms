@@ -18,6 +18,11 @@ public class Results {
         return elements;
     }
 
+    public void reset(){
+        comparisonsLabel.setText("comparisons: 0");
+        arrayAccessesLabel.setText("array accesses: 0");
+    }
+
     public void update(int comparisons, int arrayAccesses){
         comparisonsLabel.setText("comparisons: " + comparisons);
         arrayAccessesLabel.setText("array accesses: " + arrayAccesses);

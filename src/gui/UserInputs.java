@@ -12,16 +12,17 @@ import javafx.geometry.VPos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import sample.NumberArray;
 
 import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class UserInputs{
-    private int defaultNumber = 50;
-    private TextField numbersInput;
-    private Label numbersLabel;
-    private VBox numbersBox;
+    private int numberCount = 50;
+    private TextField numberCountInput;
+    private Label numberCountLabel;
+    private VBox numberCountBox;
     private Button shuffleButton;
     private ChoiceBox choiceBox;
     private Label sliderLabel;
@@ -31,7 +32,7 @@ public class UserInputs{
     private Button stepButton;
     private HBox elements;
     private BarGraph barGraph;
-    private int[] numberArray;
+    private NumberArray numberArray;
     private Bubblesort bubblesort;
     private SortingAlgorithm sortingAlgorithm;
 
@@ -39,26 +40,6 @@ public class UserInputs{
         return elements;
     }
 
-    private int[] createNumberArray(int n){
-        int[] numbers = new int[n];
-        for(int i = 0; i < n; i++){
-            numbers[i] = i+1;
-        }
-        return numbers;
-    }
-
-    private int[] shuffleArray(int[] ar)
-    {
-        Random rnd = ThreadLocalRandom.current();
-        for (int i = ar.length - 1; i > 0; i--)
-        {
-            int index = rnd.nextInt(i + 1);
-            int a = ar[index];
-            ar[index] = ar[i];
-            ar[i] = a;
-        }
-        return ar;
-    }
 
     private SortingAlgorithm getSortingAlgorithmByName(String name, SortingAlgorithm[] sortingAlgorithms){
         for(SortingAlgorithm sortingAlgorithm : sortingAlgorithms){
@@ -71,31 +52,32 @@ public class UserInputs{
 
 
     public UserInputs(BarGraph barGraph, Results results, SortingAlgorithm[] sortingAlgorithms){
-        this.barGraph = barGraph;
-        numberArray = createNumberArray(defaultNumber);
-        numbersInput = new NumberTextField(defaultNumber);
-        numbersInput.textProperty().addListener(new ChangeListener<String>() {
+
+        numberCountInput = new NumberTextField(numberCount);
+        numberCountInput.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if(newValue.equals("")){
                     newValue = "1";
                 }
-                numberArray = createNumberArray(Integer.parseInt(newValue));
-                barGraph.drawGraph(numberArray, sortingAlgorithm.getNextComparisons());
+                numberArray.init(Integer.parseInt(newValue));
+                sortingAlgorithm.reset();
+                results.reset();
+                barGraph.drawGraph(numberArray);
 
             }
         });
-        numbersLabel = new Label("Numbers:");
-        numbersBox = new VBox(numbersLabel, numbersInput);
+        numberCountLabel = new Label("Numbers:");
+        numberCountBox = new VBox(numberCountLabel, numberCountInput);
 
         shuffleButton = new Button("Shuffle");
         shuffleButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                numberArray = shuffleArray(numberArray);
-                sortingAlgorithm.init();
-                results.update(sortingAlgorithm.getComparisons(), sortingAlgorithm.getArrayAccesses());
-                barGraph.drawGraph(numberArray, sortingAlgorithm.getNextComparisons());
+                numberArray.shuffle();
+                sortingAlgorithm.reset();
+                results.reset();
+                barGraph.drawGraph(numberArray);
             }
         });
 
@@ -109,8 +91,8 @@ public class UserInputs{
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 sortingAlgorithm = getSortingAlgorithmByName(choiceBox.getItems().get(0).toString(), sortingAlgorithms);
-                sortingAlgorithm.init();
-                results.update(sortingAlgorithm.getComparisons(), sortingAlgorithm.getArrayAccesses());
+                sortingAlgorithm.reset();
+                results.reset();
             }
         });
 
@@ -118,20 +100,23 @@ public class UserInputs{
         slider = new Slider(0,100,50);
         sliderBox = new VBox(sliderLabel, slider);
 
-        bubblesort = new Bubblesort();
+        bubblesort = new Bubblesort(); //todo
         startButton = new Button("auto");
         stepButton = new Button("step");
         stepButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                numberArray = sortingAlgorithm.sort(numberArray);
-                System.out.println(Arrays.toString(numberArray));
-                barGraph.drawGraph(numberArray, sortingAlgorithm.getNextComparisons());
+                sortingAlgorithm.sort(numberArray);
+                barGraph.drawGraph(numberArray);
                 results.update(sortingAlgorithm.getComparisons(), sortingAlgorithm.getArrayAccesses());
             }
         });
-        barGraph.drawGraph(numberArray, sortingAlgorithm.getNextComparisons());
-        elements = new HBox(numbersBox, shuffleButton, choiceBox, sliderBox, startButton, stepButton);
+
+        this.barGraph = barGraph;
+        numberArray = new NumberArray(numberCount);
+        barGraph.drawGraph(numberArray);
+
+        elements = new HBox(numberCountBox, shuffleButton, choiceBox, sliderBox, startButton, stepButton);
         elements.setSpacing(10);
         elements.setPadding(new Insets(10,10,10,10));
         elements.setAlignment(Pos.BOTTOM_CENTER);

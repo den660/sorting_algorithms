@@ -1,11 +1,12 @@
 package algorithms;
 
+import sample.NumberArray;
+
 public interface SortingAlgorithm {
 
-    public int[] sort(int[] numberArray);
+    public void sort(NumberArray numberArray);
     public int getComparisons();
     public int getArrayAccesses();
     public String getName();
-    public void init();
-    public int[] getNextComparisons();
+    public void reset();
 }

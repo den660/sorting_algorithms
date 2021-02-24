@@ -5,6 +5,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import sample.NumberArray;
+import sample.NumberState;
 
 import java.util.stream.IntStream;
 
@@ -16,17 +18,13 @@ public class BarGraph {
         return canvasContainer;
     }
 
-    public void drawGraph(int[] numberArray, int[] highlights){
+    public void drawGraph(NumberArray numberArray){
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0,0,canvas.getWidth(), canvas.getHeight());
         gc.setLineWidth(9);
-        for(int i = 0; i < numberArray.length; i++){
-            final int fi = i;
-            gc.setStroke(Color.BLUE);
-            if(IntStream.of(highlights).anyMatch(x -> x == fi)){
-                gc.setStroke(Color.RED);
-            }
-            gc.strokeLine((i*10)+5, canvas.getHeight()-0, (i*10)+5, canvas.getHeight()-(numberArray[i]*5));
+        for(int i = 0; i < numberArray.getLength(); i++){
+            gc.setStroke(numberArray.getNumberStates()[i].getColor());
+            gc.strokeLine((i*10)+5, canvas.getHeight()-0, (i*10)+5, canvas.getHeight()-(numberArray.getNumbers()[i]*5));
         }
 
     }
