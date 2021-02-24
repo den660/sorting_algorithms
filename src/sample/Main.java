@@ -6,18 +6,9 @@ import gui.BarGraph;
 import gui.Results;
 import gui.UserInputs;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 
 public class Main extends Application {

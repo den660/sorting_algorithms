@@ -69,10 +69,10 @@ public class UserInputs{
         return null;
     }
 
+
     public UserInputs(BarGraph barGraph, Results results, SortingAlgorithm[] sortingAlgorithms){
         this.barGraph = barGraph;
         numberArray = createNumberArray(defaultNumber);
-        barGraph.drawGraph(numberArray);
         numbersInput = new NumberTextField(defaultNumber);
         numbersInput.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -81,7 +81,7 @@ public class UserInputs{
                     newValue = "1";
                 }
                 numberArray = createNumberArray(Integer.parseInt(newValue));
-                barGraph.drawGraph(numberArray);
+                barGraph.drawGraph(numberArray, sortingAlgorithm.getNextComparisons());
 
             }
         });
@@ -93,7 +93,9 @@ public class UserInputs{
             @Override
             public void handle(ActionEvent event) {
                 numberArray = shuffleArray(numberArray);
-                barGraph.drawGraph(numberArray);
+                sortingAlgorithm.init();
+                results.update(sortingAlgorithm.getComparisons(), sortingAlgorithm.getArrayAccesses());
+                barGraph.drawGraph(numberArray, sortingAlgorithm.getNextComparisons());
             }
         });
 
@@ -101,12 +103,14 @@ public class UserInputs{
         for(SortingAlgorithm sortingAlgorithm : sortingAlgorithms){
             choiceBox.getItems().add(sortingAlgorithm.getName());
         }
-
+        choiceBox.setValue(sortingAlgorithms[0].getName());
+        sortingAlgorithm = getSortingAlgorithmByName(choiceBox.getItems().get(0).toString(), sortingAlgorithms);
         choiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 sortingAlgorithm = getSortingAlgorithmByName(choiceBox.getItems().get(0).toString(), sortingAlgorithms);
                 sortingAlgorithm.init();
+                results.update(sortingAlgorithm.getComparisons(), sortingAlgorithm.getArrayAccesses());
             }
         });
 
@@ -122,11 +126,11 @@ public class UserInputs{
             public void handle(ActionEvent event) {
                 numberArray = sortingAlgorithm.sort(numberArray);
                 System.out.println(Arrays.toString(numberArray));
-                barGraph.drawGraph(numberArray);
+                barGraph.drawGraph(numberArray, sortingAlgorithm.getNextComparisons());
                 results.update(sortingAlgorithm.getComparisons(), sortingAlgorithm.getArrayAccesses());
             }
         });
-
+        barGraph.drawGraph(numberArray, sortingAlgorithm.getNextComparisons());
         elements = new HBox(numbersBox, shuffleButton, choiceBox, sliderBox, startButton, stepButton);
         elements.setSpacing(10);
         elements.setPadding(new Insets(10,10,10,10));

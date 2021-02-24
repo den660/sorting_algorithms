@@ -7,4 +7,5 @@ public interface SortingAlgorithm {
     public int getArrayAccesses();
     public String getName();
     public void init();
+    public int[] getNextComparisons();
 }
