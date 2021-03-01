@@ -53,6 +53,16 @@ public class UserInputs{
         return null;
     }
 
+    private void reset(){
+        sortingAlgorithm.reset();
+        results.reset();
+        barGraph.drawGraph(numberArray);
+        stepButton.setDisable(false);
+        startButton.setDisable(false);
+        startButton.setText("start");
+    }
+
+
 
     public UserInputs(BarGraph barGraph, Results results, SortingAlgorithm[] sortingAlgorithms){
         this.results = results;
@@ -64,9 +74,7 @@ public class UserInputs{
                     newValue = "1";
                 }
                 numberArray.init(Integer.parseInt(newValue));
-                sortingAlgorithm.reset();
-                results.reset();
-                barGraph.drawGraph(numberArray);
+                reset();
 
             }
         });
@@ -78,9 +86,7 @@ public class UserInputs{
             @Override
             public void handle(ActionEvent event) {
                 numberArray.shuffle();
-                sortingAlgorithm.reset();
-                results.reset();
-                barGraph.drawGraph(numberArray);
+                reset();
             }
         });
 
@@ -94,8 +100,7 @@ public class UserInputs{
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 sortingAlgorithm = getSortingAlgorithmByName(choiceBox.getItems().get(0).toString(), sortingAlgorithms);
-                sortingAlgorithm.reset();
-                results.reset();
+                reset();
             }
         });
 
@@ -122,7 +127,14 @@ public class UserInputs{
         stepButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                sortingAlgorithm.sort(numberArray);
+                if(sortingAlgorithm.sort(numberArray)){
+                    if(autoSort.isRunning()){
+                        autoSort.stop();
+                    }
+                    stepButton.setDisable(true);
+                    startButton.setDisable(true);
+                }
+
                 barGraph.drawGraph(numberArray);
                 results.update(sortingAlgorithm.getComparisons(), sortingAlgorithm.getArrayAccesses());
             }

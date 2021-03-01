@@ -19,7 +19,6 @@ public class AutoSort{
                 new Runnable(){
                     public void run(){
                         while(isRunning){
-                            System.out.println("Runnable running");
                             Platform.runLater(new Runnable() {
                                 @Override
                                 public void run() {
@@ -28,7 +27,7 @@ public class AutoSort{
                             });
 
                             try {
-                                Thread.sleep(1000);
+                                Thread.sleep(100);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
@@ -47,13 +46,11 @@ public class AutoSort{
         if(!thread.isAlive()){
             thread = new Thread(runnable);
             thread.start();
-            System.out.println(Thread.currentThread().getId());
         }
         isRunning = true;
 
     }
     public void stop(){
-        System.out.println(thread.isAlive());
         isRunning = false;
     }
 }
