@@ -20,9 +20,6 @@ public class NumberArray {
         return numberStates;
     }
 
-    public void setNumbers(int[] numbers) {
-        this.numbers = numbers;
-    }
 
     public void shuffle(){
         Random rnd = ThreadLocalRandom.current();

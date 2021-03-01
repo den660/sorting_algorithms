@@ -6,15 +6,20 @@ import gui.BarGraph;
 import gui.Results;
 import gui.UserInputs;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 
 public class Main extends Application {
 
+
     @Override
     public void start(Stage primaryStage) throws Exception{
+
         SortingAlgorithm[] sortingAlgorithms = {new Bubblesort()};
         Results results = new Results();
         BarGraph barGraph = new BarGraph();
@@ -23,6 +28,14 @@ public class Main extends Application {
 
         VBox vBox = new VBox(userInputs.getElements(), results.getElements(), barGraph.getElement());
 
+//        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+//            @Override
+//            public void handle(WindowEvent e) {
+//
+//                Platform.exit();
+//                System.exit(0);
+//            }
+//        });
 
         Scene scene = new Scene(vBox, 1050, 650);
         primaryStage.setScene(scene);

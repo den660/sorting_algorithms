@@ -35,6 +35,9 @@ public class UserInputs{
     private NumberArray numberArray;
     private Bubblesort bubblesort;
     private SortingAlgorithm sortingAlgorithm;
+    private AutoSort autoSort = new AutoSort();
+    private int sliderValue;
+    private Results results;
 
     public HBox getElements() {
         return elements;
@@ -52,7 +55,7 @@ public class UserInputs{
 
 
     public UserInputs(BarGraph barGraph, Results results, SortingAlgorithm[] sortingAlgorithms){
-
+        this.results = results;
         numberCountInput = new NumberTextField(numberCount);
         numberCountInput.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -97,11 +100,24 @@ public class UserInputs{
         });
 
         sliderLabel = new Label("Delay: ");
-        slider = new Slider(0,100,50);
+        slider = new Slider(100,2000,1000);
         sliderBox = new VBox(sliderLabel, slider);
 
-        bubblesort = new Bubblesort(); //todo
-        startButton = new Button("auto");
+        startButton = new Button("start");
+        startButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(autoSort.isRunning()){
+
+                    startButton.setText("start");
+                    autoSort.stop();
+                }
+                else{
+                    startButton.setText("stop");
+                    autoSort.start();
+                }
+            }
+        });
         stepButton = new Button("step");
         stepButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -111,6 +127,7 @@ public class UserInputs{
                 results.update(sortingAlgorithm.getComparisons(), sortingAlgorithm.getArrayAccesses());
             }
         });
+        autoSort.setStepButton(stepButton);
 
         this.barGraph = barGraph;
         numberArray = new NumberArray(numberCount);
