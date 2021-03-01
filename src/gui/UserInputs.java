@@ -24,12 +24,14 @@ public class UserInputs{
     private Label numberCountLabel;
     private VBox numberCountBox;
     private Button shuffleButton;
+    private Button reverseButton;
     private ChoiceBox choiceBox;
     private Label sliderLabel;
     private Slider slider;
     private VBox sliderBox;
     private Button startButton;
     private Button stepButton;
+    private Button resetButton;
     private HBox elements;
     private BarGraph barGraph;
     private NumberArray numberArray;
@@ -59,7 +61,7 @@ public class UserInputs{
         barGraph.drawGraph(numberArray);
         stepButton.setDisable(false);
         startButton.setDisable(false);
-        startButton.setText("start");
+        startButton.setText("Start");
     }
 
 
@@ -90,6 +92,15 @@ public class UserInputs{
             }
         });
 
+        reverseButton = new Button("Reverse");
+        reverseButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                numberArray.reverse();
+                reset();
+            }
+        });
+
         choiceBox = new ChoiceBox();
         for(SortingAlgorithm sortingAlgorithm : sortingAlgorithms){
             choiceBox.getItems().add(sortingAlgorithm.getName());
@@ -108,22 +119,22 @@ public class UserInputs{
         slider = new Slider(100,2000,1000);
         sliderBox = new VBox(sliderLabel, slider);
 
-        startButton = new Button("start");
+        startButton = new Button("Start");
         startButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 if(autoSort.isRunning()){
 
-                    startButton.setText("start");
+                    startButton.setText("Start");
                     autoSort.stop();
                 }
                 else{
-                    startButton.setText("stop");
+                    startButton.setText("Stop");
                     autoSort.start();
                 }
             }
         });
-        stepButton = new Button("step");
+        stepButton = new Button("Step");
         stepButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -141,11 +152,24 @@ public class UserInputs{
         });
         autoSort.setStepButton(stepButton);
 
+        resetButton = new Button("Reset");
+        resetButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(autoSort.isRunning()){
+                    startButton.setText("Start");
+                    autoSort.stop();
+                }
+                numberArray.loadCopy();
+                reset();
+            }
+        });
+
         this.barGraph = barGraph;
         numberArray = new NumberArray(numberCount);
         barGraph.drawGraph(numberArray);
 
-        elements = new HBox(numberCountBox, shuffleButton, choiceBox, sliderBox, startButton, stepButton);
+        elements = new HBox(numberCountBox, shuffleButton, reverseButton, choiceBox, sliderBox, startButton, stepButton, resetButton);
         elements.setSpacing(10);
         elements.setPadding(new Insets(10,10,10,10));
         elements.setAlignment(Pos.BOTTOM_CENTER);
