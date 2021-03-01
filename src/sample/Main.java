@@ -15,7 +15,7 @@ import javafx.stage.WindowEvent;
 
 
 public class Main extends Application {
-
+    private UserInputs userInputs;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -28,14 +28,14 @@ public class Main extends Application {
 
         VBox vBox = new VBox(userInputs.getElements(), results.getElements(), barGraph.getElement());
 
-//        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-//            @Override
-//            public void handle(WindowEvent e) {
-//
-//                Platform.exit();
-//                System.exit(0);
-//            }
-//        });
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent e) {
+                userInputs.stopThread();
+                Platform.exit();
+                System.exit(0);
+            }
+        });
 
         Scene scene = new Scene(vBox, 1050, 650);
         primaryStage.setScene(scene);

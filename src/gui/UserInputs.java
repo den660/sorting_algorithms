@@ -64,6 +64,13 @@ public class UserInputs{
         startButton.setText("Start");
     }
 
+    public void stopThread(){
+        if(autoSort.isRunning()){
+            startButton.setText("Start");
+            autoSort.stop();
+        }
+    }
+
 
 
     public UserInputs(BarGraph barGraph, Results results, SortingAlgorithm[] sortingAlgorithms){
