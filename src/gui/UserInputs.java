@@ -38,7 +38,6 @@ public class UserInputs{
     private Bubblesort bubblesort;
     private SortingAlgorithm sortingAlgorithm;
     private AutoSort autoSort = new AutoSort();
-    private int sliderValue;
     private Results results;
 
     public HBox getElements() {
@@ -122,9 +121,17 @@ public class UserInputs{
             }
         });
 
-        sliderLabel = new Label("Delay: ");
-        slider = new Slider(100,2000,1000);
+        sliderLabel = new Label("Delay: 500");
+        slider = new Slider(1,1000,500);
         sliderBox = new VBox(sliderLabel, slider);
+        slider.valueProperty().addListener(new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> ov,
+                                Number old_val, Number new_val) {
+                int sliderVal = new_val.intValue();
+                sliderLabel.setText("Delay: " + sliderVal);
+                autoSort.setDelay(sliderVal);
+            }
+        });
 
         startButton = new Button("Start");
         startButton.setOnAction(new EventHandler<ActionEvent>() {

@@ -9,6 +9,7 @@ public class AutoSort{
     private boolean isRunning = false;
     private Runnable runnable;
     private Button stepButton;
+    private int delay = 500;
 
     public void setStepButton(Button stepButton) {
         this.stepButton = stepButton;
@@ -27,7 +28,7 @@ public class AutoSort{
                             });
 
                             try {
-                                Thread.sleep(100);
+                                Thread.sleep(delay);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
@@ -36,6 +37,10 @@ public class AutoSort{
 
                     }
                 };
+    }
+
+    public void setDelay(int delay) {
+        this.delay = delay;
     }
 
     public boolean isRunning() {
