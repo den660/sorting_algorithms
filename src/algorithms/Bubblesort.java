@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class Bubblesort implements SortingAlgorithm{
 
 
-    private int i = 1;
+    private int i;
     private int j;
     private int comparisons;
     private int arrayAccesses;
@@ -22,6 +22,13 @@ public class Bubblesort implements SortingAlgorithm{
         k=0;
         comparisons = 0;
         arrayAccesses = 0;
+    }
+
+    @Override
+    public void setInitialStates(NumberArray numberArray) {
+        NumberState[] numberStates = numberArray.getNumberStates();
+        numberStates[0] = NumberState.NEXTCOMPARISON;
+        numberStates[1] = NumberState.NEXTCOMPARISON;
     }
 
     @Override
@@ -86,7 +93,9 @@ public class Bubblesort implements SortingAlgorithm{
         return false;
     }
 
+
     public Bubblesort(){
+        reset();
     }
 
 }

@@ -9,4 +9,5 @@ public interface SortingAlgorithm {
     public int getArrayAccesses();
     public String getName();
     public void reset();
+    public void setInitialStates(NumberArray numberArray);
 }

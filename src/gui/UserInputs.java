@@ -45,17 +45,10 @@ public class UserInputs{
     }
 
 
-    private SortingAlgorithm getSortingAlgorithmByName(String name, SortingAlgorithm[] sortingAlgorithms){
-        for(SortingAlgorithm sortingAlgorithm : sortingAlgorithms){
-            if(sortingAlgorithm.getName().equals(name)){
-                return sortingAlgorithm;
-            }
-        }
-        return null;
-    }
 
     private void reset(){
         sortingAlgorithm.reset();
+        sortingAlgorithm.setInitialStates(numberArray);
         results.reset();
         barGraph.drawGraph(numberArray);
         stepButton.setDisable(false);
@@ -112,12 +105,12 @@ public class UserInputs{
             choiceBox.getItems().add(sortingAlgorithm.getName());
         }
         choiceBox.setValue(sortingAlgorithms[0].getName());
-        sortingAlgorithm = getSortingAlgorithmByName(choiceBox.getItems().get(0).toString(), sortingAlgorithms);
+        sortingAlgorithm = sortingAlgorithms[0];
         choiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                sortingAlgorithm = getSortingAlgorithmByName(choiceBox.getItems().get(0).toString(), sortingAlgorithms);
-                reset();
+                sortingAlgorithm = sortingAlgorithms[newValue.intValue()];
+                resetButton.fire();
             }
         });
 
@@ -171,16 +164,22 @@ public class UserInputs{
             @Override
             public void handle(ActionEvent event) {
                 if(autoSort.isRunning()){
-                    startButton.setText("Start");
                     autoSort.stop();
+                    startButton.setText("Start");
+//                    while (autoSort.isRunning()){
+//
+//                    }
                 }
+
                 numberArray.loadCopy();
+                System.out.println(autoSort.isRunning());
                 reset();
             }
         });
 
         this.barGraph = barGraph;
         numberArray = new NumberArray(numberCount);
+        sortingAlgorithm.setInitialStates(numberArray);
         barGraph.drawGraph(numberArray);
 
         elements = new HBox(numberCountBox, shuffleButton, reverseButton, choiceBox, sliderBox, startButton, stepButton, resetButton);

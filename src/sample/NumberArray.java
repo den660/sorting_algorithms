@@ -57,6 +57,7 @@ public class NumberArray {
         }
         numberStates = new NumberState[n];
         Arrays.fill(numberStates, NumberState.UNDEFINED);
+        numbersCopy = Arrays.copyOf(numbers, numbers.length);
     }
 
     public NumberArray(int n){
