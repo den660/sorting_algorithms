@@ -14,18 +14,20 @@ public class Bubblesort implements SortingAlgorithm{
     private int arrayAccesses;
     private String name = "Bubblesort";
     private int k;
+    private NumberArray numberArray;
 
     @Override
-    public void reset(){
+    public void reset(NumberArray numberArray){
         i = 1;
         j = 0;
         k=0;
         comparisons = 0;
         arrayAccesses = 0;
+        this.numberArray = numberArray;
     }
 
     @Override
-    public void setInitialStates(NumberArray numberArray) {
+    public void setInitialStates() {
         NumberState[] numberStates = numberArray.getNumberStates();
         numberStates[0] = NumberState.NEXTCOMPARISON;
         numberStates[1] = NumberState.NEXTCOMPARISON;
@@ -47,7 +49,7 @@ public class Bubblesort implements SortingAlgorithm{
     }
 
     @Override
-    public boolean sort(NumberArray numberArray){
+    public boolean sort(){
 
         int[] numbers = numberArray.getNumbers();
         if(numbers[j] > numbers[j+1]){
@@ -95,7 +97,7 @@ public class Bubblesort implements SortingAlgorithm{
 
 
     public Bubblesort(){
-        reset();
+        reset(null);
     }
 
 }

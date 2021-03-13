@@ -13,9 +13,10 @@ public class Insertionsort implements SortingAlgorithm{
     private int comparisons;
     private int arrayAccesses;
     private String name = "Insertionsort";
+    private NumberArray numberArray;
 
     @Override
-    public boolean sort(NumberArray numberArray) {
+    public boolean sort() {
         int[] numbers = numberArray.getNumbers();
         NumberState[] numberStates = numberArray.getNumberStates();
         if(i < numbers.length){
@@ -64,19 +65,21 @@ public class Insertionsort implements SortingAlgorithm{
     }
 
     @Override
-    public void reset() {
+    public void reset(NumberArray numberArray) {
         i = 1;
         j = 0;
         comparisons = 0;
         arrayAccesses = 0;
+        this.numberArray = numberArray;
     }
 
     @Override
-    public void setInitialStates(NumberArray numberArray) {
-
+    public void setInitialStates() {
+        NumberState[] numberStates = numberArray.getNumberStates();
+        numberStates[0] = NumberState.NEXTCOMPARISON;
     }
 
     public Insertionsort(){
-        reset();
+        reset(null);
     }
 }

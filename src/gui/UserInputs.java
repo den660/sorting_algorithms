@@ -47,8 +47,8 @@ public class UserInputs{
 
 
     private void reset(){
-        sortingAlgorithm.reset();
-        sortingAlgorithm.setInitialStates(numberArray);
+        sortingAlgorithm.reset(numberArray);
+        sortingAlgorithm.setInitialStates();
         results.reset();
         barGraph.drawGraph(numberArray);
         stepButton.setDisable(false);
@@ -114,8 +114,8 @@ public class UserInputs{
             }
         });
 
-        sliderLabel = new Label("Delay: 500");
-        slider = new Slider(1,1000,30);
+        sliderLabel = new Label("Delay: 30");
+        slider = new Slider(1,1000,500);
         sliderBox = new VBox(sliderLabel, slider);
         slider.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> ov,
@@ -146,7 +146,7 @@ public class UserInputs{
         stepButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(sortingAlgorithm.sort(numberArray)){
+                if(sortingAlgorithm.sort()){
                     if(autoSort.isRunning()){
                         autoSort.stop();
                     }
@@ -173,14 +173,14 @@ public class UserInputs{
                 }
 
                 numberArray.loadCopy();
-                System.out.println(autoSort.isRunning());
                 reset();
             }
         });
 
         this.barGraph = barGraph;
         numberArray = new NumberArray(numberCount);
-        sortingAlgorithm.setInitialStates(numberArray);
+        sortingAlgorithm.reset(numberArray);
+        sortingAlgorithm.setInitialStates();
         barGraph.drawGraph(numberArray);
 
         elements = new HBox(numberCountBox, shuffleButton, reverseButton, choiceBox, sliderBox, startButton, stepButton, resetButton);
