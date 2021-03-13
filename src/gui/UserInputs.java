@@ -115,12 +115,13 @@ public class UserInputs{
         });
 
         sliderLabel = new Label("Delay: 500");
-        slider = new Slider(1,1000,500);
+        slider = new Slider(1,1000,30);
         sliderBox = new VBox(sliderLabel, slider);
         slider.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> ov,
                                 Number old_val, Number new_val) {
                 int sliderVal = new_val.intValue();
+                sliderVal = (int)Math.ceil(0.993109*Math.exp(0.00691467*sliderVal));
                 sliderLabel.setText("Delay: " + sliderVal);
                 autoSort.setDelay(sliderVal);
             }
