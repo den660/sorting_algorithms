@@ -1,6 +1,5 @@
 package gui;
 
-import algorithms.Bubblesort;
 import algorithms.SortingAlgorithm;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -8,34 +7,19 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import sample.NumberArray;
 
-import java.util.Arrays;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class UserInputs{
-    private int numberCount = 50;
-    private TextField numberCountInput;
-    private Label numberCountLabel;
-    private VBox numberCountBox;
-    private Button shuffleButton;
-    private Button reverseButton;
-    private ChoiceBox choiceBox;
     private Label delaySliderLabel;
-    private Slider delaySlider;
-    private VBox delaySliderBox;
     private Button startButton;
     private Button stepButton;
     private Button resetButton;
     private HBox elements;
     private BarGraph barGraph;
     private NumberArray numberArray;
-    private Bubblesort bubblesort;
     private SortingAlgorithm sortingAlgorithm;
     private AutoSort autoSort = new AutoSort();
     private Results results;
@@ -68,8 +52,9 @@ public class UserInputs{
     public UserInputs(BarGraph barGraph, Results results, SortingAlgorithm[] sortingAlgorithms){
         this.results = results;
 
-        Label numberSliderLabel = new Label("Array Size: 50");
-        Slider numberSlider = new Slider(2,100,50);
+        int initialArraySize = 50;
+        Label numberSliderLabel = new Label("Array Size: " + initialArraySize);
+        Slider numberSlider = new Slider(2,100,initialArraySize);
         VBox numberSliderBox = new VBox(numberSliderLabel, numberSlider);
         numberSlider.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> ov,
@@ -82,7 +67,7 @@ public class UserInputs{
 
 
 
-        shuffleButton = new Button("Shuffle");
+        Button shuffleButton = new Button("Shuffle");
         shuffleButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -91,7 +76,7 @@ public class UserInputs{
             }
         });
 
-        reverseButton = new Button("Reverse");
+        Button reverseButton = new Button("Reverse");
         reverseButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -100,7 +85,7 @@ public class UserInputs{
             }
         });
 
-        choiceBox = new ChoiceBox();
+        ChoiceBox choiceBox = new ChoiceBox();
         for(SortingAlgorithm sortingAlgorithm : sortingAlgorithms){
             choiceBox.getItems().add(sortingAlgorithm.getName());
         }
@@ -115,8 +100,8 @@ public class UserInputs{
         });
 
         delaySliderLabel = new Label("Delay: 30");
-        delaySlider = new Slider(1,1000,500);
-        delaySliderBox = new VBox(delaySliderLabel, delaySlider);
+        Slider delaySlider = new Slider(1,1000,500);
+        VBox delaySliderBox = new VBox(delaySliderLabel, delaySlider);
         delaySlider.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> ov,
                                 Number old_val, Number new_val) {
@@ -178,7 +163,7 @@ public class UserInputs{
         });
 
         this.barGraph = barGraph;
-        numberArray = new NumberArray(numberCount);
+        numberArray = new NumberArray(initialArraySize);
         sortingAlgorithm.reset(numberArray);
         sortingAlgorithm.setInitialStates();
         barGraph.drawGraph(numberArray);
