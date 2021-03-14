@@ -26,9 +26,9 @@ public class UserInputs{
     private Button shuffleButton;
     private Button reverseButton;
     private ChoiceBox choiceBox;
-    private Label sliderLabel;
-    private Slider slider;
-    private VBox sliderBox;
+    private Label delaySliderLabel;
+    private Slider delaySlider;
+    private VBox delaySliderBox;
     private Button startButton;
     private Button stepButton;
     private Button resetButton;
@@ -67,20 +67,20 @@ public class UserInputs{
 
     public UserInputs(BarGraph barGraph, Results results, SortingAlgorithm[] sortingAlgorithms){
         this.results = results;
-        numberCountInput = new NumberTextField(numberCount);
-        numberCountInput.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if(newValue.equals("")){
-                    newValue = "1";
-                }
-                numberArray.init(Integer.parseInt(newValue));
-                reset();
 
+        Label numberSliderLabel = new Label("Array Size: 50");
+        Slider numberSlider = new Slider(2,100,50);
+        VBox numberSliderBox = new VBox(numberSliderLabel, numberSlider);
+        numberSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> ov,
+                                Number old_val, Number new_val) {
+                numberArray.init(new_val.intValue());
+                numberSliderLabel.setText("Array Size: " + new_val.intValue());
+                reset();
             }
         });
-        numberCountLabel = new Label("Numbers:");
-        numberCountBox = new VBox(numberCountLabel, numberCountInput);
+
+
 
         shuffleButton = new Button("Shuffle");
         shuffleButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -114,15 +114,15 @@ public class UserInputs{
             }
         });
 
-        sliderLabel = new Label("Delay: 30");
-        slider = new Slider(1,1000,500);
-        sliderBox = new VBox(sliderLabel, slider);
-        slider.valueProperty().addListener(new ChangeListener<Number>() {
+        delaySliderLabel = new Label("Delay: 30");
+        delaySlider = new Slider(1,1000,500);
+        delaySliderBox = new VBox(delaySliderLabel, delaySlider);
+        delaySlider.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> ov,
                                 Number old_val, Number new_val) {
                 int sliderVal = new_val.intValue();
                 sliderVal = (int)Math.ceil(0.993109*Math.exp(0.00691467*sliderVal));
-                sliderLabel.setText("Delay: " + sliderVal);
+                delaySliderLabel.setText("Delay: " + sliderVal);
                 autoSort.setDelay(sliderVal);
             }
         });
@@ -147,7 +147,7 @@ public class UserInputs{
             @Override
             public void handle(ActionEvent event) {
                 if(sortingAlgorithm.sort()){
-                    if(autoSort.isRunning()){
+                    if(autoSort.isRunning()){   //todo ??
                         autoSort.stop();
                     }
                     stepButton.setDisable(true);
@@ -183,7 +183,7 @@ public class UserInputs{
         sortingAlgorithm.setInitialStates();
         barGraph.drawGraph(numberArray);
 
-        elements = new HBox(numberCountBox, shuffleButton, reverseButton, choiceBox, sliderBox, startButton, stepButton, resetButton);
+        elements = new HBox(numberSliderBox, shuffleButton, reverseButton, choiceBox, delaySliderBox, startButton, stepButton, resetButton);
         elements.setSpacing(10);
         elements.setPadding(new Insets(10,10,10,10));
         elements.setAlignment(Pos.BOTTOM_CENTER);
