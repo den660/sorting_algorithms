@@ -29,7 +29,6 @@ public class UserInputs{
     }
 
 
-
     private void reset(){
         sortingAlgorithm.reset(numberArray);
         sortingAlgorithm.setInitialStates();
@@ -172,8 +171,6 @@ public class UserInputs{
         elements.setSpacing(10);
         elements.setPadding(new Insets(10,10,10,10));
         elements.setAlignment(Pos.BOTTOM_CENTER);
-
-
     }
 
 

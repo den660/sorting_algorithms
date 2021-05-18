@@ -1,10 +1,7 @@
 package sample;
 
-import algorithms.Bubblesort;
-import algorithms.Insertionsort;
-import algorithms.SortingAlgorithm;
+import algorithms.*;
 //import algorithms.quicksort.Quicksort;
-import algorithms.Heapsort;
 import gui.BarGraph;
 import gui.Results;
 import gui.UserInputs;
@@ -23,7 +20,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        SortingAlgorithm[] sortingAlgorithms = {new Bubblesort(), new Insertionsort(), new Heapsort()};
+        SortingAlgorithm[] sortingAlgorithms = {new Bubblesort(), new Insertionsort(), new Heapsort(), new Testsort()};
         Results results = new Results();
         BarGraph barGraph = new BarGraph();
         UserInputs userInputs = new UserInputs(barGraph, results, sortingAlgorithms);
