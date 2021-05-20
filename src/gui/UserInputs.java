@@ -131,7 +131,7 @@ public class UserInputs{
             @Override
             public void handle(ActionEvent event) {
                 if(sortingAlgorithm.sort()){
-                    if(autoSort.isRunning()){   //todo ??
+                    if(autoSort.isRunning()){
                         autoSort.stop();
                     }
                     stepButton.setDisable(true);
