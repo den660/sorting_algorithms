@@ -4,11 +4,13 @@ import algorithms.*;
 //import algorithms.quicksort.Quicksort;
 import algorithms.quicksort.Quicksort;
 import gui.BarGraph;
+import gui.GuiController;
 import gui.Results;
 import gui.UserInputs;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -16,42 +18,38 @@ import javafx.stage.WindowEvent;
 
 
 public class Main extends Application {
-    private UserInputs userInputs;
+    GuiController guiController;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        SortingAlgorithm[] sortingAlgorithms = {new Bubblesort(), new Insertionsort(), new Heapsort(), new Quicksort(), new Shellsort(), new Mergesort(), new Selectionsort(), new Gnomesort()};
-        Results results = new Results();
-        BarGraph barGraph = new BarGraph();
-        UserInputs userInputs = new UserInputs(barGraph, results, sortingAlgorithms);
-
-
-        VBox vBox = new VBox(userInputs.getElements(), results.getElements(), barGraph.getElement());
-
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent e) {
-                userInputs.stopThread();
-                Platform.exit();
-                System.exit(0);
-            }
-        });
-
+        guiController = new GuiController();
+        VBox vBox = new VBox(guiController.getElements());
+        stopThreadOnCloseRequest(primaryStage);
         Scene scene = new Scene(vBox, 1050, 650);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Hello World");
         primaryStage.show();
     }
 
-
-
-
-
-
+    private void stopThreadOnCloseRequest(Stage primaryStage) {
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent e) {
+                guiController.stopThread();
+                Platform.exit();
+                System.exit(0);
+            }
+        });
+    }
 
     public static void main(String[] args) {
 
         launch(args);
     }
 }
+
+
+
+
+
