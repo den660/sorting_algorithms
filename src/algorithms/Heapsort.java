@@ -5,14 +5,14 @@ import sample.NumberState;
 
 public class Heapsort implements SortingAlgorithm {
 
-    private int lower = 0;
-    private int upper = 0;
-    private int i = 0;
-    private int j = 0;
-    private int stepCounter = 0;
-    private int roundCounter = 0;
-    private int comparisons = 0;
-    private int arrayAccesses = 0;
+    private int lower;
+    private int upper;
+    private int i;
+    private int j;
+    private int stepCounter;
+    private int roundCounter;
+    private int comparisons;
+    private int arrayAccesses;
     private String name = "Heapsort";
     private NumberArray numberArray;
 
@@ -29,7 +29,6 @@ public class Heapsort implements SortingAlgorithm {
             if ((stepCounter + 1) < (arrayLength - roundCounter)) {
 
                 lower = endOfArray - stepCounter - roundCounter;
-                System.out.println("lower = " + lower);
 
                 if (lower % 2 == 0) {
                     upper = (lower / 2) - 1;
@@ -44,6 +43,7 @@ public class Heapsort implements SortingAlgorithm {
                 i = numbers[upper];
                 j = numbers[lower];
                 comparisons++;
+                arrayAccesses += 2;
 
                numberStates[upper] = NumberState.NEXTCOMPARISON;
                numberStates[lower] = NumberState.NEXTCOMPARISON;
@@ -52,9 +52,9 @@ public class Heapsort implements SortingAlgorithm {
                     int temp = i;
                     numbers[upper] = j;
                     numbers[lower] = temp;
+                    arrayAccesses += 3;
                 }
                 stepCounter++;
-                arrayAccesses += 2;
 
             } else {
                 int entryPoint = endOfArray - roundCounter;
@@ -64,6 +64,7 @@ public class Heapsort implements SortingAlgorithm {
                 numberStates[entryPoint] = NumberState.FIXED;
                 stepCounter = 0;
                 roundCounter++;
+                arrayAccesses += 3;
             }
 
             return false;

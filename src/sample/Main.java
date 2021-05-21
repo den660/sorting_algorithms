@@ -21,7 +21,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        SortingAlgorithm[] sortingAlgorithms = {new Bubblesort(), new Insertionsort(), new Heapsort(), new Quicksort(), new Shellsort()};
+        SortingAlgorithm[] sortingAlgorithms = {new Bubblesort(), new Insertionsort(), new Heapsort(), new Quicksort(), new Shellsort(), new Mergesort(), new Selectionsort(), new Gnomesort()};
         Results results = new Results();
         BarGraph barGraph = new BarGraph();
         UserInputs userInputs = new UserInputs(barGraph, results, sortingAlgorithms);
