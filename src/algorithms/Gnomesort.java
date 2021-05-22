@@ -8,7 +8,6 @@ import java.util.Arrays;
 public class Gnomesort implements SortingAlgorithm {
 
     private int i;
-    private int j;
     private int comparisons;
     private int arrayAccesses;
     private String name = "Gnomesort";
