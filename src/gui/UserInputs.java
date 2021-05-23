@@ -51,7 +51,8 @@ public class UserInputs{
                 new Shellsort(),
                 new Mergesort(),
                 new Selectionsort(),
-                new Gnomesort()};
+                new Gnomesort(),
+        new Bogosort()};
 
 
         VBox numberSliderBox = initNumberSlider();

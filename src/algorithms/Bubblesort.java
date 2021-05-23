@@ -16,6 +16,8 @@ public class Bubblesort implements SortingAlgorithm{
     private int k;
     private NumberArray numberArray;
 
+
+
     @Override
     public void reset(NumberArray numberArray){
         i = 1;
