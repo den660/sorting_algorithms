@@ -2,6 +2,7 @@ package gui;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
@@ -10,11 +11,9 @@ public class Results {
 
     private Label comparisonsLabel;
     private Label arrayAccessesLabel;
-
-
     private HBox elements;
 
-    public HBox getElements(){
+    public Node getNode(){
         return elements;
     }
 

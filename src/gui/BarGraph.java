@@ -1,20 +1,17 @@
 package gui;
 
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import sample.NumberArray;
-import sample.NumberState;
 
-import java.util.stream.IntStream;
-
-public class BarGraph {
+public class BarGraph implements Graph{
     private Canvas canvas;
     private StackPane canvasContainer;
 
-    public StackPane getElement(){
+    public Node getNode(){
         return canvasContainer;
     }
 

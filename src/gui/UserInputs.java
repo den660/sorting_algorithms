@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
@@ -23,7 +24,7 @@ public class UserInputs{
     private boolean autoSortIsRunning = false;
     private SortingAlgorithm[] sortingAlgorithms;
 
-    public HBox getElements() {
+    public Node getNode() {
         return elements;
     }
 

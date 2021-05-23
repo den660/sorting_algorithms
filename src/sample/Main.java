@@ -29,7 +29,7 @@ public class Main extends Application {
         UserInputs userInputs = new UserInputs(guiController);
         guiController.setUserInputs(userInputs);
 
-        VBox vBox = new VBox(userInputs.getElements(), results.getElements(), barGraph.getElement());
+        VBox vBox = new VBox(userInputs.getNode(), results.getNode(), barGraph.getNode());
         stopThreadOnCloseRequest(primaryStage);
         Scene scene = new Scene(vBox, 1050, 650);
         primaryStage.setScene(scene);

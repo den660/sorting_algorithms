@@ -5,18 +5,16 @@ import sample.NumberArray;
 
 public class GuiController {
 
-    private Results results;
-    private BarGraph barGraph;
+    private final Results results;
+    private final Graph graph;
     private NumberArray numberArray;
     private SortingAlgorithm chosenSortingAlgorithm;
-    private AutoSort autoSort = new AutoSort(this);
+    private final AutoSort autoSort = new AutoSort(this);
     private UserInputs userInputs;
 
-    public GuiController(Results results, BarGraph barGraph){
+    public GuiController(Results results, Graph graph){
         this.results = results;
-        this.barGraph = barGraph;
-
-
+        this.graph = graph;
     }
 
     public void setUserInputs(UserInputs userInputs){
@@ -49,7 +47,7 @@ public class GuiController {
             userInputs.disableStartButton(true);
         }
 
-        barGraph.drawGraph(numberArray);
+        graph.drawGraph(numberArray);
         results.update(chosenSortingAlgorithm.getComparisons(), chosenSortingAlgorithm.getArrayAccesses());
     }
 
@@ -58,7 +56,7 @@ public class GuiController {
         chosenSortingAlgorithm.reset(numberArray);
         chosenSortingAlgorithm.setInitialStates();
         results.reset();
-        barGraph.drawGraph(numberArray);
+        graph.drawGraph(numberArray);
         userInputs.disableStepButton(false);
         userInputs.disableStartButton(false);
         userInputs.setStartButtonText("Start");
@@ -94,7 +92,7 @@ public class GuiController {
         numberArray = new NumberArray(n);
         chosenSortingAlgorithm.reset(numberArray);
         chosenSortingAlgorithm.setInitialStates();
-        barGraph.drawGraph(numberArray);
+        graph.drawGraph(numberArray);
     }
 
     public void stopThread(){
