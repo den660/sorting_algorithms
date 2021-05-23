@@ -1,22 +1,16 @@
 package gui;
 
 import javafx.application.Platform;
-import javafx.scene.control.Button;
 
 public class AutoSort{
 
     private Thread thread = new Thread();
     private boolean isRunning = false;
-//    private boolean stopFlag = true;
     private Runnable runnable;
-    private Button stepButton;
+
     private int delay = 500;
 
-    public void setStepButton(Button stepButton) {
-        this.stepButton = stepButton;
-    }
-
-    public AutoSort(){
+    public AutoSort(GuiController guiController){
         runnable =
                 new Runnable(){
                     public void run(){
@@ -24,7 +18,7 @@ public class AutoSort{
                             Platform.runLater(new Runnable() {
                                 @Override
                                 public void run() {
-                                    stepButton.fire();
+                                    guiController.sortArray();
                                 }
                             });
 
@@ -35,7 +29,6 @@ public class AutoSort{
                             }
 
                         }
-//                        isRunning = false;
                     }
                 };
     }
@@ -53,10 +46,12 @@ public class AutoSort{
             thread = new Thread(runnable);
             thread.start();
         }
-//        stopFlag = false;
         isRunning = true;
     }
     public void stop(){
-        isRunning=false;
+        if(isRunning){
+            isRunning=false;
+        }
+
     }
 }

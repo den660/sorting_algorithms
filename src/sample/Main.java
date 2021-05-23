@@ -22,9 +22,14 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        Results results = new Results();
+        BarGraph barGraph = new BarGraph();
+        guiController = new GuiController(results, barGraph);
 
-        guiController = new GuiController();
-        VBox vBox = new VBox(guiController.getElements());
+        UserInputs userInputs = new UserInputs(guiController);
+        guiController.setUserInputs(userInputs);
+
+        VBox vBox = new VBox(userInputs.getElements(), results.getElements(), barGraph.getElement());
         stopThreadOnCloseRequest(primaryStage);
         Scene scene = new Scene(vBox, 1050, 650);
         primaryStage.setScene(scene);

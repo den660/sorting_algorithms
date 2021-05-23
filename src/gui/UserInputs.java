@@ -1,6 +1,7 @@
 package gui;
 
-import algorithms.SortingAlgorithm;
+import algorithms.*;
+import algorithms.quicksort.Quicksort;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -9,7 +10,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import sample.NumberArray;
 
 
 public class UserInputs{
@@ -18,42 +18,42 @@ public class UserInputs{
     private Button stepButton;
     private Button resetButton;
     private HBox elements;
-    private BarGraph barGraph;
-    private NumberArray numberArray;
-    private SortingAlgorithm sortingAlgorithm;
-    private AutoSort autoSort = new AutoSort();
-    private Results results;
+    private GuiController guiController;
+    private int initialArraySize = 50;
+    private boolean autoSortIsRunning = false;
+    private SortingAlgorithm[] sortingAlgorithms;
 
     public HBox getElements() {
         return elements;
     }
 
-
-    private void reset(){
-        sortingAlgorithm.reset(numberArray);
-        sortingAlgorithm.setInitialStates();
-        results.reset();
-        barGraph.drawGraph(numberArray);
-        stepButton.setDisable(false);
-        startButton.setDisable(false);
-        startButton.setText("Start");
+    public void disableStartButton(boolean b){
+        startButton.setDisable(b);
     }
 
-    public void stopThread(){
-        if(autoSort.isRunning()){
-            startButton.setText("Start");
-            autoSort.stop();
-        }
+    public void disableStepButton(boolean b){
+        stepButton.setDisable(b);
+    }
+
+    public void setStartButtonText(String text){
+        startButton.setText(text);
     }
 
 
+    public UserInputs(GuiController guiController){
+        this.guiController = guiController;
+        sortingAlgorithms = new SortingAlgorithm[]{
+                new Bubblesort(),
+                new Insertionsort(),
+                new Heapsort(),
+                new Quicksort(),
+                new Shellsort(),
+                new Mergesort(),
+                new Selectionsort(),
+                new Gnomesort()};
 
-    public UserInputs(BarGraph barGraph, Results results, SortingAlgorithm[] sortingAlgorithms){
-        this.results = results;
 
-        int initialArraySize = 50;
-
-        VBox numberSliderBox = initNumberSlider(initialArraySize);
+        VBox numberSliderBox = initNumberSlider();
 
         Button shuffleButton = initShuffleButton();
 
@@ -65,17 +65,11 @@ public class UserInputs{
 
         initStartButton();
 
-        initStepButton(barGraph, results);
-
-        autoSort.setStepButton(stepButton);
+        initStepButton();
 
         initResetButton();
 
-        this.barGraph = barGraph;
-        numberArray = new NumberArray(initialArraySize);
-        sortingAlgorithm.reset(numberArray);
-        sortingAlgorithm.setInitialStates();
-        barGraph.drawGraph(numberArray);
+        guiController.initNumberArray(initialArraySize);
 
         elements = new HBox(numberSliderBox, shuffleButton, reverseButton, choiceBox, delaySliderBox, startButton, stepButton, resetButton);
         elements.setSpacing(10);
@@ -88,35 +82,18 @@ public class UserInputs{
         resetButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(autoSort.isRunning()){
-                    autoSort.stop();
-                    startButton.setText("Start");
-//                    while (autoSort.isRunning()){
-//
-//                    }
-                }
-
-                numberArray.loadCopy();
-                reset();
+                startButton.setText("Start");
+                guiController.resetArray();
             }
         });
     }
 
-    private void initStepButton(BarGraph barGraph, Results results) {
+    private void initStepButton() {
         stepButton = new Button("Step");
         stepButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(sortingAlgorithm.sort()){
-                    if(autoSort.isRunning()){
-                        autoSort.stop();
-                    }
-                    stepButton.setDisable(true);
-                    startButton.setDisable(true);
-                }
-
-                barGraph.drawGraph(numberArray);
-                results.update(sortingAlgorithm.getComparisons(), sortingAlgorithm.getArrayAccesses());
+                guiController.sortArray();
             }
         });
     }
@@ -126,15 +103,7 @@ public class UserInputs{
         startButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(autoSort.isRunning()){
-
-                    startButton.setText("Start");
-                    autoSort.stop();
-                }
-                else{
-                    startButton.setText("Stop");
-                    autoSort.start();
-                }
+                guiController.triggerAutoSort();
             }
         });
     }
@@ -147,9 +116,9 @@ public class UserInputs{
             public void changed(ObservableValue<? extends Number> ov,
                                 Number old_val, Number new_val) {
                 int sliderVal = new_val.intValue();
-                sliderVal = (int)Math.ceil(0.993109*Math.exp(0.00691467*sliderVal));
-                delaySliderLabel.setText("Delay: " + sliderVal);
-                autoSort.setDelay(sliderVal);
+                int delay = (int)Math.ceil(0.993109*Math.exp(0.00691467*sliderVal));
+                delaySliderLabel.setText("Delay: " + delay);
+                guiController.changeDelay(delay);
             }
         });
         return delaySliderBox;
@@ -161,12 +130,13 @@ public class UserInputs{
             choiceBox.getItems().add(sortingAlgorithm.getName());
         }
         choiceBox.setValue(sortingAlgorithms[0].getName());
-        sortingAlgorithm = sortingAlgorithms[0];
+        guiController.changeSortingAlgorithm(sortingAlgorithms[0]);
         choiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                sortingAlgorithm = sortingAlgorithms[newValue.intValue()];
-                resetButton.fire();
+                SortingAlgorithm sortingAlgorithm = sortingAlgorithms[newValue.intValue()];
+                guiController.changeSortingAlgorithm(sortingAlgorithm);
+                guiController.resetArray();
             }
         });
         return choiceBox;
@@ -177,8 +147,7 @@ public class UserInputs{
         reverseButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                numberArray.reverse();
-                reset();
+                guiController.reverseArray();
             }
         });
         return reverseButton;
@@ -189,23 +158,23 @@ public class UserInputs{
         shuffleButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                numberArray.shuffle();
-                reset();
+                guiController.shuffleArray();
             }
         });
         return shuffleButton;
     }
 
-    private VBox initNumberSlider(int initialArraySize) {
+    private VBox initNumberSlider() {
         Label numberSliderLabel = new Label("Array Size: " + initialArraySize);
         Slider numberSlider = new Slider(2,100,initialArraySize);
         VBox numberSliderBox = new VBox(numberSliderLabel, numberSlider);
         numberSlider.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> ov,
                                 Number old_val, Number new_val) {
-                numberArray.init(new_val.intValue());
+
+
                 numberSliderLabel.setText("Array Size: " + new_val.intValue());
-                reset();
+                guiController.changeArraySize(new_val.intValue());
             }
         });
         return numberSliderBox;
