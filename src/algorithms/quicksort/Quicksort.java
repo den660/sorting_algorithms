@@ -18,7 +18,7 @@ public class Quicksort implements SortingAlgorithm {
     private NumberArray numberArray;
     private NumberState[] numberStates;
 
-    public int partition(int a[], int start, int end)
+    private int partition(int a[], int start, int end)
     {
         int pivot = a[end];
         int pIndex = start;
@@ -41,7 +41,7 @@ public class Quicksort implements SortingAlgorithm {
         return pIndex;
     }
 
-    public void swap (int[] arr, int i, int j)
+    private void swap (int[] arr, int i, int j)
     {
         int temp = arr[i];
         arr[i] = arr[j];

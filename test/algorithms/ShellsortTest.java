@@ -1,18 +1,15 @@
 package algorithms;
 
+import algorithms.quicksort.Quicksort;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import sample.NumberArray;
-import sample.NumberState;
-
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-public class BubblesortTest {
+public class ShellsortTest {
     private NumberArray numberArray = new NumberArray(5);
-    SortingAlgorithm sortingAlgorithm = new Bubblesort();
-
-
+    SortingAlgorithm sortingAlgorithm = new Shellsort();
 
     @Test
     public void testSort(){
@@ -41,22 +38,12 @@ public class BubblesortTest {
         numberArray.reverse();
         sortingAlgorithm.reset(numberArray);
         while(!sortingAlgorithm.sort());
-        Assertions.assertEquals(sortingAlgorithm.getComparisons(), 10);
-        Assertions.assertEquals(sortingAlgorithm.getArrayAccesses(), 60);
+        Assertions.assertEquals(sortingAlgorithm.getComparisons(), 7);
+        Assertions.assertEquals(sortingAlgorithm.getArrayAccesses(), 35);
     }
 
     @Test
     public void testGetName(){
-        Assertions.assertEquals(sortingAlgorithm.getName(), "Bubblesort");
-    }
-
-    @Test
-    public void testSetInitialStates(){
-        numberArray.init(5);
-        sortingAlgorithm.reset(numberArray);
-        sortingAlgorithm.setInitialStates();
-        NumberState[] numberStates = numberArray.getNumberStates();
-        Assertions.assertEquals(numberStates[0], NumberState.NEXTCOMPARISON);
-        Assertions.assertEquals(numberStates[1], NumberState.NEXTCOMPARISON);
+        Assertions.assertEquals(sortingAlgorithm.getName(), "Shellsort");
     }
 }

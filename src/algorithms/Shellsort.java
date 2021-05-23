@@ -54,12 +54,12 @@ public class Shellsort implements SortingAlgorithm{
 
     @Override
     public int getComparisons() {
-        return 0;
+        return comparisons;
     }
 
     @Override
     public int getArrayAccesses() {
-        return 0;
+        return arrayAccesses;
     }
 
     @Override

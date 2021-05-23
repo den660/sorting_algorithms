@@ -5,14 +5,11 @@ import org.junit.jupiter.api.Test;
 import sample.NumberArray;
 import sample.NumberState;
 
-
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-public class BubblesortTest {
+public class InsertionsortTest {
     private NumberArray numberArray = new NumberArray(5);
-    SortingAlgorithm sortingAlgorithm = new Bubblesort();
-
-
+    SortingAlgorithm sortingAlgorithm = new Insertionsort();
 
     @Test
     public void testSort(){
@@ -42,12 +39,12 @@ public class BubblesortTest {
         sortingAlgorithm.reset(numberArray);
         while(!sortingAlgorithm.sort());
         Assertions.assertEquals(sortingAlgorithm.getComparisons(), 10);
-        Assertions.assertEquals(sortingAlgorithm.getArrayAccesses(), 60);
+        Assertions.assertEquals(sortingAlgorithm.getArrayAccesses(), 38);
     }
 
     @Test
     public void testGetName(){
-        Assertions.assertEquals(sortingAlgorithm.getName(), "Bubblesort");
+        Assertions.assertEquals(sortingAlgorithm.getName(), "Insertionsort");
     }
 
     @Test
@@ -57,6 +54,5 @@ public class BubblesortTest {
         sortingAlgorithm.setInitialStates();
         NumberState[] numberStates = numberArray.getNumberStates();
         Assertions.assertEquals(numberStates[0], NumberState.NEXTCOMPARISON);
-        Assertions.assertEquals(numberStates[1], NumberState.NEXTCOMPARISON);
     }
 }
