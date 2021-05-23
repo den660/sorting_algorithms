@@ -33,12 +33,6 @@ public class NumberArrayTest {
         assertArrayEquals(numberArray.getNumbers(), new int[]{1,2,3,4,5});
     }
 
-    @Test
-    public void testShuffle(){
-        NumberArray numberArray = new NumberArray(5);
-        numberArray.shuffle();
-        assertArrayEquals(numberArray.getNumbers(), new int[]{1,2,3,4,5});
-    }
 
     @Test
     public void testReverse(){
