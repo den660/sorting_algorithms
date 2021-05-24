@@ -10,7 +10,6 @@ import javafx.scene.layout.*;
 
 
 public class UserInputs{
-    private Label delaySliderLabel;
     private Button startButton;
     private Button stepButton;
     private Button resetButton;
@@ -93,11 +92,11 @@ public class UserInputs{
     }
 
     private VBox initDelaySlider() {
-        delaySliderLabel = new Label("Delay: 30");
+        Label delaySliderLabel = new Label("Delay: 30");
         Slider delaySlider = new Slider(1,1000,500);
         VBox delaySliderBox = new VBox(delaySliderLabel, delaySlider);
-        delaySlider.valueProperty().addListener((ov, old_val, new_val) -> {
-            int sliderVal = new_val.intValue();
+        delaySlider.valueProperty().addListener((ov, oldVal, newVal) -> {
+            int sliderVal = newVal.intValue();
             int delay = (int)Math.ceil(0.993109*Math.exp(0.00691467*sliderVal));
             delaySliderLabel.setText("Delay: " + delay);
             guiController.changeDelay(delay);
@@ -136,9 +135,9 @@ public class UserInputs{
         Label numberSliderLabel = new Label("Array Size: " + initialArraySize);
         Slider numberSlider = new Slider(2,100,initialArraySize);
         VBox numberSliderBox = new VBox(numberSliderLabel, numberSlider);
-        numberSlider.valueProperty().addListener((ov, old_val, new_val) -> {
-            numberSliderLabel.setText("Array Size: " + new_val.intValue());
-            guiController.changeArraySize(new_val.intValue());
+        numberSlider.valueProperty().addListener((ov, oldVal, newVal) -> {
+            numberSliderLabel.setText("Array Size: " + newVal.intValue());
+            guiController.changeArraySize(newVal.intValue());
         });
         return numberSliderBox;
     }
