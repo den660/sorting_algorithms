@@ -15,6 +15,7 @@ public class Mergesort implements SortingAlgorithm {
     private int iterationCounter;
     private int temp;
     private int lowest;
+    private int starter;
     private int position;
     private int startOfRest;
     private int restCounter;
@@ -25,6 +26,10 @@ public class Mergesort implements SortingAlgorithm {
 
     @Override
     public boolean sort() {
+        if(starter==0){
+            setMaxIterations();
+            starter++;
+        }
         NumberState[] numberStates = numberArray.getNumberStates();
         if (iterationCounter <= iterations) {
             Arrays.fill(numberStates, NumberState.UNDEFINED);
@@ -37,6 +42,31 @@ public class Mergesort implements SortingAlgorithm {
         } else {
             Arrays.fill(numberStates, NumberState.FIXED);
             return true;
+        }
+    }
+
+    public void setMaxIterations(){
+        int[] numbers = numberArray.getNumbers();
+        int arrayLength = numbers.length;
+        NumberState[] numberStates = numberArray.getNumberStates();
+
+        if (arrayLength / 2 == 1 | arrayLength == 4) {
+            iterations = 1;
+        } else if (arrayLength / 4 == 1 | arrayLength == 8) {
+            iterations = 2;
+        } else if (arrayLength / 8 == 1 | arrayLength == 16) {
+            iterations = 3;
+        } else if (arrayLength / 16 == 1 | arrayLength == 32) {
+            iterations = 4;
+        } else if (arrayLength / 32 == 1 | arrayLength == 64) {
+            iterations = 5;
+        } else if (arrayLength / 64 == 1 | arrayLength == 128) {
+            iterations = 6;
+        } else if (arrayLength / 128 == 1) {
+            iterations = 7;
+        } else {
+            System.out.println("Fehler!");
+            Arrays.fill(numberStates, NumberState.NEXTCOMPARISON);
         }
     }
 
@@ -164,7 +194,7 @@ public class Mergesort implements SortingAlgorithm {
             counter++;
             lowest = 100;
 
-            if (counter == endOfChunk - 1) {
+            if (counter == endOfChunk ) {
                 iterationCounter++;
                 counter = 0;
                 restCounter = 0;
@@ -179,6 +209,7 @@ public class Mergesort implements SortingAlgorithm {
             sizeOfChunks *= 2;
         }
     }
+
 
 
     @Override
@@ -204,6 +235,7 @@ public class Mergesort implements SortingAlgorithm {
         restCounter = 0;
         lowest = 100;
         position = 0;
+        starter = 0;
         iterationCounter = 0;
         comparisons = 0;
         arrayAccesses = 0;
@@ -213,30 +245,11 @@ public class Mergesort implements SortingAlgorithm {
     @Override
     public void setInitialStates() {
         int[] numbers = numberArray.getNumbers();
-        int arrayLength = numbers.length;
         NumberState[] numberStates = numberArray.getNumberStates();
         if (numbers[0] < numbers[1]) {
             numberStates[0] = NumberState.NEXTCOMPARISON;
         } else {
             numberStates[1] = NumberState.NEXTCOMPARISON;
-        }
-
-        if (arrayLength / 2 == 1 | arrayLength == 4) {
-            iterations = 1;
-        } else if (arrayLength / 4 == 1 | arrayLength == 8) {
-            iterations = 2;
-        } else if (arrayLength / 8 == 1 | arrayLength == 16) {
-            iterations = 3;
-        } else if (arrayLength / 16 == 1 | arrayLength == 32) {
-            iterations = 4;
-        } else if (arrayLength / 32 == 1 | arrayLength == 64) {
-            iterations = 5;
-        } else if (arrayLength / 64 == 1 | arrayLength == 128) {
-            iterations = 6;
-        } else if (arrayLength / 128 == 1) {
-            iterations = 7;
-        } else {
-            System.out.println("Fehler!");
         }
     }
 
