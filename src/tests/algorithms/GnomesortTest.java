@@ -8,7 +8,7 @@ import sample.NumberArray;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-public class GnomesortTest {
+public class GnomesortTest{
     private NumberArray numberArray = new NumberArray(5);
     SortingAlgorithm sortingAlgorithm = new Gnomesort();
 
