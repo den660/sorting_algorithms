@@ -56,7 +56,7 @@ public class UserInputs{
 
         Button reverseButton = initReverseButton();
 
-        ChoiceBox choiceBox = initChoiceBox(sortingAlgorithms);
+        ChoiceBox<String> choiceBox = initChoiceBox(sortingAlgorithms);
 
         VBox delaySliderBox = initDelaySlider();
 
@@ -105,8 +105,8 @@ public class UserInputs{
         return delaySliderBox;
     }
 
-    private ChoiceBox initChoiceBox(SortingAlgorithm[] sortingAlgorithms) {
-        ChoiceBox choiceBox = new ChoiceBox();
+    private ChoiceBox<String> initChoiceBox(SortingAlgorithm[] sortingAlgorithms) {
+        ChoiceBox<String> choiceBox = new ChoiceBox<>();
         for(SortingAlgorithm sortingAlgorithm : sortingAlgorithms){
             choiceBox.getItems().add(sortingAlgorithm.getName());
         }
