@@ -1,20 +1,14 @@
 package sample;
 
-import algorithms.*;
-//import algorithms.quicksort.Quicksort;
-import algorithms.quicksort.Quicksort;
 import gui.BarGraph;
 import gui.GuiController;
 import gui.Results;
 import gui.UserInputs;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 
 public class Main extends Application {

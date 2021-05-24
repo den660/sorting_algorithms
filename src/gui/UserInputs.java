@@ -2,10 +2,6 @@ package gui;
 
 import algorithms.*;
 import algorithms.quicksort.Quicksort;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -21,7 +17,6 @@ public class UserInputs{
     private HBox elements;
     private GuiController guiController;
     private int initialArraySize = 50;
-    private boolean autoSortIsRunning = false;
     private SortingAlgorithm[] sortingAlgorithms;
 
     public Node getNode() {
@@ -141,14 +136,9 @@ public class UserInputs{
         Label numberSliderLabel = new Label("Array Size: " + initialArraySize);
         Slider numberSlider = new Slider(2,100,initialArraySize);
         VBox numberSliderBox = new VBox(numberSliderLabel, numberSlider);
-        numberSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> ov,
-                                Number old_val, Number new_val) {
-
-
-                numberSliderLabel.setText("Array Size: " + new_val.intValue());
-                guiController.changeArraySize(new_val.intValue());
-            }
+        numberSlider.valueProperty().addListener((ov, old_val, new_val) -> {
+            numberSliderLabel.setText("Array Size: " + new_val.intValue());
+            guiController.changeArraySize(new_val.intValue());
         });
         return numberSliderBox;
     }
