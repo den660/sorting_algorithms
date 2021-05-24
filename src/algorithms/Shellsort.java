@@ -26,10 +26,11 @@ public class Shellsort implements SortingAlgorithm{
         states[i] = NumberState.NEXTCOMPARISON;
 
         int j;
-        for (j = i; j >= gap && numbers[j - gap] > temp; j -= gap)
+        for (j = i; j >= gap && numbers[j - gap] > temp; j -= gap) {
             numbers[j] = numbers[j - gap];
-            arrayAccesses+=3;
+            arrayAccesses += 3;
             comparisons++;
+        }
 
         numbers[j] = temp;
         arrayAccesses++;
@@ -81,6 +82,6 @@ public class Shellsort implements SortingAlgorithm{
 
     @Override
     public void setInitialStates() {
-
+        Arrays.fill(numberArray.getNumberStates(), NumberState.UNDEFINED);
     }
 }

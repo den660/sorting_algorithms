@@ -112,10 +112,7 @@ public class Quicksort implements SortingAlgorithm {
 
     @Override
     public void setInitialStates() {
-
+        Arrays.fill(numberStates, NumberState.UNDEFINED);
     }
 
-    public Quicksort(){
-
-    }
 }

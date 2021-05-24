@@ -53,6 +53,6 @@ public class Bogosort implements SortingAlgorithm{
 
     @Override
     public void setInitialStates() {
-
+        Arrays.fill(numberArray.getNumberStates(), NumberState.UNDEFINED);
     }
 }
