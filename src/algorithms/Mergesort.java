@@ -210,8 +210,6 @@ public class Mergesort implements SortingAlgorithm {
         }
     }
 
-
-
     @Override
     public int getComparisons() {
         return comparisons;

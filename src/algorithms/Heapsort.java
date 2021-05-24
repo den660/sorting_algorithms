@@ -3,6 +3,8 @@ package algorithms;
 import sample.NumberArray;
 import sample.NumberState;
 
+import java.util.Arrays;
+
 public class Heapsort implements SortingAlgorithm {
 
     private int lower;
@@ -24,55 +26,68 @@ public class Heapsort implements SortingAlgorithm {
         int arrayLength = numberArray.getLength();
         int endOfArray = numbers.length - 1;
 
-        if (roundCounter + 3 <= arrayLength) {
+        if (isSorted(numberArray.getNumbers(), numberArray.getNumbers().length)) {
+            Arrays.fill(numberStates, NumberState.FIXED);
+            return true;
+        } else {
+            if (roundCounter + 3 <= arrayLength) {
 
-            if ((stepCounter + 1) < (arrayLength - roundCounter)) {
+                if ((stepCounter + 1) < (arrayLength - roundCounter)) {
 
-                lower = endOfArray - stepCounter - roundCounter;
+                    lower = endOfArray - stepCounter - roundCounter;
 
-                if (lower % 2 == 0) {
-                    upper = (lower / 2) - 1;
+                    if (lower % 2 == 0) {
+                        upper = (lower / 2) - 1;
+                    } else {
+                        upper = (lower - 1) / 2;
+                    }
+
+                    for (int i = 0; i <= endOfArray - roundCounter; i++) {
+                        numberStates[i] = NumberState.UNDEFINED;
+                    }
+
+                    i = numbers[upper];
+                    j = numbers[lower];
+                    comparisons++;
+                    arrayAccesses += 2;
+
+                    numberStates[upper] = NumberState.NEXTCOMPARISON;
+                    numberStates[lower] = NumberState.NEXTCOMPARISON;
+
+                    if (j > i) {
+                        int temp = i;
+                        numbers[upper] = j;
+                        numbers[lower] = temp;
+                        arrayAccesses += 3;
+                    }
+                    stepCounter++;
+
                 } else {
-                    upper = (lower - 1) / 2;
-                }
-
-                for (int i = 0; i <= endOfArray - roundCounter; i++) {
-                    numberStates[i] = NumberState.UNDEFINED;
-                }
-
-                i = numbers[upper];
-                j = numbers[lower];
-                comparisons++;
-                arrayAccesses += 2;
-
-               numberStates[upper] = NumberState.NEXTCOMPARISON;
-               numberStates[lower] = NumberState.NEXTCOMPARISON;
-
-                if (j > i) {
-                    int temp = i;
-                    numbers[upper] = j;
-                    numbers[lower] = temp;
+                    int entryPoint = endOfArray - roundCounter;
+                    int temp = numbers[0];
+                    numbers[0] = numbers[entryPoint];
+                    numbers[entryPoint] = temp;
+                    numberStates[entryPoint] = NumberState.FIXED;
+                    stepCounter = 0;
+                    roundCounter++;
                     arrayAccesses += 3;
                 }
-                stepCounter++;
 
+                return false;
             } else {
-                int entryPoint = endOfArray - roundCounter;
-                int temp = numbers[0];
-                numbers[0] = numbers[entryPoint];
-                numbers[entryPoint] = temp;
-                numberStates[entryPoint] = NumberState.FIXED;
-                stepCounter = 0;
-                roundCounter++;
-                arrayAccesses += 3;
+                numberStates[0] = NumberState.FIXED;
+                numberStates[1] = NumberState.FIXED;
+                return true;
             }
-
-            return false;
-        }else{
-            numberStates[0] = NumberState.FIXED;
-            numberStates[1] = NumberState.FIXED;
-            return true;
         }
+    }
+
+    boolean isSorted(int[] array, int length) {
+        if (array == null || length < 2)
+            return true;
+        if (array[length - 2] > array[length - 1])
+            return false;
+        return isSorted(array, length - 1);
     }
 
     @Override
@@ -106,7 +121,7 @@ public class Heapsort implements SortingAlgorithm {
     @Override
     public void setInitialStates() {
         int middleOfArray;
-        int endOfArray = numberArray.getLength()-1;
+        int endOfArray = numberArray.getLength() - 1;
         if (endOfArray % 2 == 0) {
             middleOfArray = (endOfArray / 2) - 1;
         } else {
