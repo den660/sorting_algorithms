@@ -12,23 +12,16 @@ public class AutoSort{
 
     public AutoSort(GuiController guiController){
         runnable =
-                new Runnable(){
-                    public void run(){
-                        while(isRunning){
-                            Platform.runLater(new Runnable() {
-                                @Override
-                                public void run() {
-                                    guiController.sortArray();
-                                }
-                            });
+                () -> {
+                    while(isRunning){
+                        Platform.runLater(() -> guiController.sortArray());
 
-                            try {
-                                Thread.sleep(delay);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-
+                        try {
+                            Thread.sleep(delay);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
+
                     }
                 };
     }

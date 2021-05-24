@@ -38,13 +38,10 @@ public class Main extends Application {
     }
 
     private void stopThreadOnCloseRequest(Stage primaryStage) {
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent e) {
-                guiController.stopThread();
-                Platform.exit();
-                System.exit(0);
-            }
+        primaryStage.setOnCloseRequest(e -> {
+            guiController.stopThread();
+            Platform.exit();
+            System.exit(0);
         });
     }
 
