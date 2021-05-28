@@ -6,7 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
-public class Results {
+public class Results implements ResultNode{
 
 
     private Label comparisonsLabel;

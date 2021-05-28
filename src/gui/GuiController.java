@@ -5,14 +5,14 @@ import sample.NumberArray;
 
 public class GuiController {
 
-    private final Results results;
+    private final ResultNode results;
     private final Graph graph;
     private NumberArray numberArray;
     private SortingAlgorithm chosenSortingAlgorithm;
     private final AutoSort autoSortThread = new AutoSortThread(this);
     private UserInputs userInputs;
 
-    public GuiController(Results results, Graph graph){
+    public GuiController(ResultNode results, Graph graph){
         this.results = results;
         this.graph = graph;
     }
