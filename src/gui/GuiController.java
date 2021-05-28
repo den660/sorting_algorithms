@@ -9,7 +9,7 @@ public class GuiController {
     private final Graph graph;
     private NumberArray numberArray;
     private SortingAlgorithm chosenSortingAlgorithm;
-    private final AutoSort autoSort = new AutoSort(this);
+    private final AutoSort autoSortThread = new AutoSortThread(this);
     private UserInputs userInputs;
 
     public GuiController(Results results, Graph graph){
@@ -32,8 +32,8 @@ public class GuiController {
     }
 
     public void resetArray(){
-        if(autoSort.isRunning()){
-            autoSort.stop();
+        if(autoSortThread.isRunning()){
+            autoSortThread.stop();
         }
 
         numberArray.loadCopy();
@@ -42,7 +42,7 @@ public class GuiController {
 
     public void sortArray(){
         if(chosenSortingAlgorithm.sort()){
-            autoSort.stop();
+            autoSortThread.stop();
             userInputs.disableStepButton(true);
             userInputs.disableStartButton(true);
         }
@@ -64,17 +64,17 @@ public class GuiController {
 
 
     public void changeDelay(int delay){
-        autoSort.setDelay(delay);
+        autoSortThread.setDelay(delay);
     }
 
     public void triggerAutoSort(){
-        if(autoSort.isRunning()){
+        if(autoSortThread.isRunning()){
             userInputs.setStartButtonText("Start");
-            autoSort.stop();
+            autoSortThread.stop();
         }
         else{
             userInputs.setStartButtonText("Stop");
-            autoSort.start();
+            autoSortThread.start();
         }
     }
 
@@ -96,8 +96,8 @@ public class GuiController {
     }
 
     public void stopThread(){
-        if(autoSort.isRunning()){
-            autoSort.stop();
+        if(autoSortThread.isRunning()){
+            autoSortThread.stop();
         }
     }
 }
