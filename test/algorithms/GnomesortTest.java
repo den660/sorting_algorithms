@@ -1,6 +1,6 @@
-package tests.algorithms;
+package algorithms;
 
-import algorithms.Mergesort;
+import algorithms.Gnomesort;
 import algorithms.SortingAlgorithm;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -8,9 +8,9 @@ import sample.NumberArray;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-public class MergesortTest {
+public class GnomesortTest{
     private NumberArray numberArray = new NumberArray(5);
-    SortingAlgorithm sortingAlgorithm = new Mergesort();
+    SortingAlgorithm sortingAlgorithm = new Gnomesort();
 
     @Test
     public void testSort(){
@@ -39,13 +39,13 @@ public class MergesortTest {
         numberArray.reverse();
         sortingAlgorithm.reset(numberArray);
         while(!sortingAlgorithm.sort());
-        Assertions.assertEquals(sortingAlgorithm.getComparisons(), 29);
-        Assertions.assertEquals(sortingAlgorithm.getArrayAccesses(), 53);
+        Assertions.assertEquals(sortingAlgorithm.getComparisons(), 20);
+        Assertions.assertEquals(sortingAlgorithm.getArrayAccesses(), 50);
     }
 
     @Test
     public void testGetName(){
-        Assertions.assertEquals(sortingAlgorithm.getName(), "Mergesort");
+        Assertions.assertEquals(sortingAlgorithm.getName(), "Gnomesort");
     }
 
 }

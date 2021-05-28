@@ -1,6 +1,6 @@
-package tests.algorithms;
+package algorithms;
 
-import algorithms.Heapsort;
+import algorithms.Selectionsort;
 import algorithms.SortingAlgorithm;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -8,9 +8,9 @@ import sample.NumberArray;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-public class HeapsortTest {
+public class SelectionsortTest {
     private NumberArray numberArray = new NumberArray(5);
-    SortingAlgorithm sortingAlgorithm = new Heapsort();
+    SortingAlgorithm sortingAlgorithm = new Selectionsort();
 
     @Test
     public void testSort(){
@@ -39,13 +39,13 @@ public class HeapsortTest {
         numberArray.reverse();
         sortingAlgorithm.reset(numberArray);
         while(!sortingAlgorithm.sort());
-        Assertions.assertEquals(sortingAlgorithm.getComparisons(), 9);
-        Assertions.assertEquals(sortingAlgorithm.getArrayAccesses(), 36);
+        Assertions.assertEquals(sortingAlgorithm.getComparisons(), 10);
+        Assertions.assertEquals(sortingAlgorithm.getArrayAccesses(), 22);
     }
 
     @Test
     public void testGetName(){
-        Assertions.assertEquals(sortingAlgorithm.getName(), "Heapsort");
+        Assertions.assertEquals(sortingAlgorithm.getName(), "Selectionsort");
     }
 
 }
