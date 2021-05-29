@@ -40,7 +40,7 @@ public class MergesortTest {
         sortingAlgorithm.reset(numberArray);
         while(!sortingAlgorithm.sort());
         Assertions.assertEquals(sortingAlgorithm.getComparisons(), 29);
-        Assertions.assertEquals(sortingAlgorithm.getArrayAccesses(), 53);
+        Assertions.assertEquals(sortingAlgorithm.getArrayAccesses(), 44);
     }
 
     @Test
