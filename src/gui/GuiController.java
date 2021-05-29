@@ -9,15 +9,16 @@ public class GuiController {
     private final Graph graph;
     private NumberArray numberArray;
     private SortingAlgorithm chosenSortingAlgorithm;
-    private final AutoSort autoSortThread = new AutoSortThread(this);
-    private UserInputs userInputs;
+    private AutoSort autoSort;
+    private InputNode userInputs;
 
-    public GuiController(ResultNode results, Graph graph){
+    public GuiController(ResultNode results, Graph graph, AutoSort autoSort){
         this.results = results;
         this.graph = graph;
+        this.autoSort= autoSort;
     }
 
-    public void setUserInputs(UserInputs userInputs){
+    public void setUserInputs(InputNode userInputs){
         this.userInputs = userInputs;
     }
 
@@ -32,8 +33,8 @@ public class GuiController {
     }
 
     public void resetArray(){
-        if(autoSortThread.isRunning()){
-            autoSortThread.stop();
+        if(autoSort.isRunning()){
+            autoSort.stop();
         }
 
         numberArray.loadCopy();
@@ -42,7 +43,7 @@ public class GuiController {
 
     public void sortArray(){
         if(chosenSortingAlgorithm.sort()){
-            autoSortThread.stop();
+            autoSort.stop();
             userInputs.disableStepButton(true);
             userInputs.disableStartButton(true);
         }
@@ -64,17 +65,17 @@ public class GuiController {
 
 
     public void changeDelay(int delay){
-        autoSortThread.setDelay(delay);
+        autoSort.setDelay(delay);
     }
 
     public void triggerAutoSort(){
-        if(autoSortThread.isRunning()){
+        if(autoSort.isRunning()){
             userInputs.setStartButtonText("Start");
-            autoSortThread.stop();
+            autoSort.stop();
         }
         else{
             userInputs.setStartButtonText("Stop");
-            autoSortThread.start();
+            autoSort.start();
         }
     }
 
@@ -96,8 +97,8 @@ public class GuiController {
     }
 
     public void stopThread(){
-        if(autoSortThread.isRunning()){
-            autoSortThread.stop();
+        if(autoSort.isRunning()){
+            autoSort.stop();
         }
     }
 }

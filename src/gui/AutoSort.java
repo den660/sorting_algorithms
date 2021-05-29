@@ -5,4 +5,5 @@ public interface AutoSort {
     boolean isRunning();
     void start();
     void stop();
+    void setRunnable(GuiController guiController);
 }

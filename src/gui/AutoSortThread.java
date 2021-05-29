@@ -10,20 +10,8 @@ public class AutoSortThread implements AutoSort{
 
     private int delay = 500;
 
-    public AutoSortThread(GuiController guiController){
-        runnable =
-                () -> {
-                    while(isRunning){
-                        Platform.runLater(() -> guiController.sortArray());
+    public AutoSortThread(){
 
-                        try {
-                            Thread.sleep(delay);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                };
     }
 
     public void setDelay(int delay) {
@@ -46,5 +34,22 @@ public class AutoSortThread implements AutoSort{
             isRunning=false;
         }
 
+    }
+
+    @Override
+    public void setRunnable(GuiController guiController) {
+        runnable =
+                () -> {
+                    while(isRunning){
+                        Platform.runLater(() -> guiController.sortArray());
+
+                        try {
+                            Thread.sleep(delay);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                };
     }
 }

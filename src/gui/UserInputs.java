@@ -9,7 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
 
-public class UserInputs{
+public class UserInputs implements InputNode{
     private Button startButton;
     private Button stepButton;
     private Button resetButton;

@@ -1,9 +1,6 @@
 package sample;
 
-import gui.BarGraph;
-import gui.GuiController;
-import gui.Results;
-import gui.UserInputs;
+import gui.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -18,7 +15,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Results results = new Results();
         BarGraph barGraph = new BarGraph();
-        guiController = new GuiController(results, barGraph);
+        AutoSortThread autoSortThread = new AutoSortThread();
+        guiController = new GuiController(results, barGraph, autoSortThread);
 
         UserInputs userInputs = new UserInputs(guiController);
         guiController.setUserInputs(userInputs);
