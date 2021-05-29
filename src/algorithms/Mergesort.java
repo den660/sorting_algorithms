@@ -7,21 +7,19 @@ import java.util.Arrays;
 
 public class Mergesort implements SortingAlgorithm {
 
-    private int sizeOfChunks;
     private int startOfChunk;
-    private int endOfChunk;
+    private int sizeOfChunks;
     private int counter;
     private int iterations;
     private int iterationCounter;
-    private int temp;
     private int lowest;
     private int starter;
     private int position;
-    private int startOfRest;
     private int restCounter;
     private int comparisons;
     private int arrayAccesses;
-    private String name = "Mergesort";
+    private final int maxInt = Integer.MAX_VALUE;
+    private final String name = "Mergesort";
     private NumberArray numberArray;
 
     @Override
@@ -70,64 +68,70 @@ public class Mergesort implements SortingAlgorithm {
         }
     }
 
+    public void findLowestForward(int startValue, int endValue){
+        int[] numbers = numberArray.getNumbers();
+        for (int k = startValue; k < endValue; k++) {
+            comparisons++;
+            if (numbers[k] < lowest) {
+                arrayAccesses++;
+                lowest = numbers[k];
+                position = k;
+            }
+        }
+    }
+
+    public void findLowestBackward(int startValue, int endValue){
+        int[] numbers = numberArray.getNumbers();
+        for (int k = startValue; k > endValue; k--) {
+            comparisons++;
+            if (numbers[k] < lowest) {
+                arrayAccesses++;
+                lowest = numbers[k];
+                position = k;
+            }
+        }
+    }
+
+    public void moveLowest(int position, int startOfChunk){
+        int[] numbers = numberArray.getNumbers();
+        if (position != startOfChunk) {
+            arrayAccesses++;
+            int temp = numbers[position];
+            for (int k = position; k > startOfChunk; k--) {
+                arrayAccesses+=2;
+                numbers[k] = numbers[k - 1];
+            }
+            arrayAccesses++;
+            numbers[startOfChunk] = temp;
+        }
+    }
+
     public void forwardSorting() {
         int[] numbers = numberArray.getNumbers();
         int arrayLength = numbers.length;
         NumberState[] numberStates = numberArray.getNumberStates();
 
         if (startOfChunk + sizeOfChunks - counter < arrayLength) {
-            for (int k = startOfChunk; k < startOfChunk + sizeOfChunks - counter; k++) {
-                comparisons++;
-                if (numbers[k] < lowest) {
-                    arrayAccesses++;
-                    lowest = numbers[k];
-                    position = k;
-                }
-            }
-            if (position != startOfChunk) {
-                arrayAccesses++;
-                temp = numbers[position];
-                for (int k = position; k > startOfChunk; k--) {
-                    arrayAccesses+=2;
-                    numbers[k] = numbers[k - 1];
-                }
-                arrayAccesses++;
-                numbers[startOfChunk] = temp;
-            }
+            findLowestForward(startOfChunk, (startOfChunk+sizeOfChunks-counter));
+            moveLowest(position, startOfChunk);
+
             numberStates[startOfChunk] = NumberState.NEXTCOMPARISON;
             startOfChunk++;
             counter++;
-            lowest = 100;
+            lowest = maxInt;
 
             if (counter == sizeOfChunks - 1) {
                 counter = 0;
                 startOfChunk++;
             }
-
-
         } else {
-            startOfRest = startOfChunk + restCounter;
-            for (int k = startOfRest; k < arrayLength; k++) {
-                comparisons++;
-                if (numbers[k] < lowest) {
-                    arrayAccesses++;
-                    lowest = numbers[k];
-                    position = k;
-                }
-            }
-            if (position != startOfRest) {
-                arrayAccesses++;
-                temp = numbers[position];
-                for (int k = position; k > startOfRest; k--) {
-                    arrayAccesses+=2;
-                    numbers[k] = numbers[k - 1];
-                }
-                arrayAccesses++;
-                numbers[startOfRest] = temp;
-            }
+            int startOfRest = startOfChunk + restCounter;
+            findLowestForward(startOfRest, arrayLength);
+            moveLowest(position, startOfRest);
+
             numberStates[startOfRest] = NumberState.NEXTCOMPARISON;
             restCounter++;
-            lowest = 100;
+            lowest = maxInt;
 
             if (startOfRest + counter == arrayLength - 1) {
                 iterationCounter++;
@@ -140,61 +144,30 @@ public class Mergesort implements SortingAlgorithm {
     }
 
     public void backwardSorting() {
-        int[] numbers = numberArray.getNumbers();
         NumberState[] numberStates = numberArray.getNumberStates();
 
-        endOfChunk = startOfChunk;
+        int endOfChunk = startOfChunk;
         if (endOfChunk - sizeOfChunks +1 >= 0) {
-            for (int k = endOfChunk; k > endOfChunk - sizeOfChunks + counter; k--) {
-                comparisons++;
-                if (numbers[k] < lowest) {
-                    arrayAccesses++;
-                    lowest = numbers[k];
-                    position = k;
-                }
-            }
-            if (position != endOfChunk - sizeOfChunks + counter) {
-                arrayAccesses++;
-                temp = numbers[position];
-                for (int k = position; k > endOfChunk - sizeOfChunks + counter + 1; k--) {
-                    arrayAccesses+=2;
-                    numbers[k] = numbers[k - 1];
-                }
-                arrayAccesses++;
-                numbers[endOfChunk - sizeOfChunks + counter + 1] = temp;
-            }
+            findLowestBackward(endOfChunk, (endOfChunk -sizeOfChunks+counter));
+            moveLowest(position, (endOfChunk - sizeOfChunks + counter));
+
             numberStates[endOfChunk - sizeOfChunks + counter + 1] = NumberState.NEXTCOMPARISON;
             counter++;
-            lowest = 100;
+            lowest = maxInt;
 
             if (counter == sizeOfChunks - 1) {
                 counter = 0;
                 startOfChunk -= sizeOfChunks;
             }
         } else if(endOfChunk > 1){
-            for (int k = endOfChunk; k >= counter; k--) {
-                comparisons++;
-                if (numbers[k] < lowest) {
-                    arrayAccesses++;
-                    lowest = numbers[k];
-                    position = k;
-                }
-            }
-            if(position != counter){
-                arrayAccesses++;
-                temp = numbers[position];
-                for (int k = position; k > counter ; k--) {
-                    arrayAccesses+=2;
-                    numbers[k] = numbers[k - 1];
-                }
-                arrayAccesses++;
-                numbers[counter] = temp;
-            }
+            findLowestBackward(endOfChunk, (counter-1));
+            moveLowest(position, counter);
+
             numberStates[counter] = NumberState.NEXTCOMPARISON;
             counter++;
-            lowest = 100;
+            lowest = maxInt;
 
-            if (counter == endOfChunk ) {
+            if (counter == endOfChunk) {
                 iterationCounter++;
                 counter = 0;
                 restCounter = 0;
@@ -231,7 +204,7 @@ public class Mergesort implements SortingAlgorithm {
         sizeOfChunks = 2;
         counter = 0;
         restCounter = 0;
-        lowest = 100;
+        lowest = maxInt;
         position = 0;
         starter = 0;
         iterationCounter = 0;
