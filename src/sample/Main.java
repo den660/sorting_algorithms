@@ -25,7 +25,7 @@ public class Main extends Application {
         stopThreadOnCloseRequest(primaryStage);
         Scene scene = new Scene(vBox, 1050, 650);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Sortieralgorithmen");
         primaryStage.show();
     }
 
