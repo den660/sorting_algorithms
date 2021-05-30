@@ -61,4 +61,18 @@ public class GuiControllerTest {
         guiController.stopThread();
         Assertions.assertEquals(fakeAutoSort.isRunning(), false);
     }
+
+    @Test
+    void testReset(){
+        FakeInputNode fakeInputNode = new FakeInputNode();
+        FakeResultNode fakeResultNode = new FakeResultNode();
+        GuiController guiController = new GuiController(fakeResultNode, new FakeGraph(), new FakeAutoSort());
+        guiController.changeSortingAlgorithm(new FakeSortingAlgorithm());
+        guiController.setUserInputs(fakeInputNode);
+        guiController.reset();
+        Assertions.assertTrue(fakeResultNode.isReseted());
+        Assertions.assertEquals("Start", fakeInputNode.getStartButtonText());
+        Assertions.assertFalse(fakeInputNode.isStartButtonDisabled());
+        Assertions.assertFalse(fakeInputNode.isStepButtonDisabled());
+    }
 }

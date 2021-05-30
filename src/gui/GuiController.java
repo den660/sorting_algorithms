@@ -54,7 +54,7 @@ public class GuiController {
     }
 
 
-    private void reset(){
+    protected void reset(){
         chosenSortingAlgorithm.reset(numberArray);
         chosenSortingAlgorithm.setInitialStates();
         results.reset();
