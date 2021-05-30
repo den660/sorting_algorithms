@@ -5,20 +5,12 @@ import org.junit.jupiter.api.Test;
 
 public class GuiControllerTest {
 
-    @Test
-    void testRunnable(){
-        FakeAutoSort fakeAutoSort = new FakeAutoSort();
-        GuiController guiController = new GuiController(null, null, fakeAutoSort);
-        fakeAutoSort.setRunnable(guiController);
-        guiController.resetArray();
-        Assertions.assertEquals(fakeAutoSort.isRunning(), false);
-    }
 
     @Test
     void testSortArray(){
         FakeResultNode fakeResultNode = new FakeResultNode();
         FakeGraph fakeGraph = new FakeGraph();
-        GuiController guiController = new GuiController(fakeResultNode, fakeGraph, null);
+        GuiController guiController = new GuiController(fakeResultNode, fakeGraph, new FakeAutoSort());
         guiController.changeSortingAlgorithm(new FakeSortingAlgorithm());
         guiController.initNumberArray(5);
         guiController.sortArray();
@@ -36,7 +28,7 @@ public class GuiControllerTest {
     }
 
     @Test
-    void testReset(){
+    void testResetArray(){
         FakeInputNode fakeInputNode = new FakeInputNode();
         FakeResultNode fakeResultNode = new FakeResultNode();
         GuiController guiController = new GuiController(fakeResultNode, new FakeGraph(), new FakeAutoSort());
@@ -47,7 +39,7 @@ public class GuiControllerTest {
         Assertions.assertEquals(fakeResultNode.isReseted(), true);
         Assertions.assertEquals(fakeInputNode.getStartButtonText(), "Start");
         Assertions.assertEquals(fakeInputNode.isStartButtonDisabled(), false);
-        Assertions.assertEquals(fakeInputNode.isStartButtonDisabled(), false);
+        Assertions.assertEquals(fakeInputNode.isStepButtonDisabled(), false);
     }
 
     @Test

@@ -10,7 +10,7 @@ public class FakeInputNode implements InputNode{
         return startButtonDisabled;
     }
 
-    public boolean isStepButtonDiabled() {
+    public boolean isStepButtonDisabled() {
         return stepButtonDiabled;
     }
 
