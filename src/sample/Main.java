@@ -15,7 +15,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Results results = new Results();
         BarGraph barGraph = new BarGraph();
-        AutoSortThread autoSortThread = new AutoSortThread();
+        AutoSort autoSortThread = new AutoSortThread();
         guiController = new GuiController(results, barGraph, autoSortThread);
 
         UserInputs userInputs = new UserInputs(guiController);

@@ -16,6 +16,7 @@ public class GuiController {
         this.results = results;
         this.graph = graph;
         this.autoSort= autoSort;
+        autoSort.setRunnable(this);
     }
 
     public void setUserInputs(InputNode userInputs){
