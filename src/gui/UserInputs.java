@@ -46,7 +46,7 @@ public class UserInputs implements InputNode{
                 new Mergesort(),
                 new Selectionsort(),
                 new Gnomesort(),
-        new Bogosort()};
+                new Bogosort()};
 
 
         VBox numberSliderBox = initNumberSlider();
@@ -67,10 +67,16 @@ public class UserInputs implements InputNode{
 
         guiController.initNumberArray(initialArraySize);
 
-        elements = new HBox(numberSliderBox, shuffleButton, reverseButton, choiceBox, delaySliderBox, startButton, stepButton, resetButton);
+        elements = new HBox(numberSliderBox,initJsonButton(), shuffleButton, reverseButton, choiceBox, delaySliderBox, startButton, stepButton, resetButton);
         elements.setSpacing(10);
         elements.setPadding(new Insets(10,10,10,10));
         elements.setAlignment(Pos.BOTTOM_CENTER);
+    }
+
+    private Button initJsonButton(){
+        Button jsonButton = new Button("Import JSON");
+        jsonButton.setOnAction(event -> guiController.loadJson());
+        return jsonButton;
     }
 
     private void initResetButton() {
