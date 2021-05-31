@@ -26,3 +26,4 @@ out/
 sorting_algorithms.iml
 .idea
 .gradle
+target/
