@@ -14,7 +14,7 @@ public class Bogosort implements SortingAlgorithm{
     boolean isSorted(int[] array, int length) {
         if (array == null || length < 2)
             return true;
-        if (array[length - 2] > array[length - 1])
+        if (array[length - 2] >= array[length - 1])
             return false;
         return isSorted(array, length - 1);
     }

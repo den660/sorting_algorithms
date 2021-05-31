@@ -2,6 +2,9 @@ package gui;
 import algorithms.*;
 import sample.NumberArray;
 
+import javax.swing.*;
+import java.io.File;
+
 
 public class GuiController {
 
@@ -11,6 +14,7 @@ public class GuiController {
     private SortingAlgorithm chosenSortingAlgorithm;
     private AutoSort autoSort;
     private InputNode userInputs;
+    private int[] numbers;
 
     public GuiController(ResultNode results, Graph graph, AutoSort autoSort){
         this.results = results;
@@ -101,5 +105,17 @@ public class GuiController {
         if(autoSort.isRunning()){
             autoSort.stop();
         }
+    }
+
+    public void loadJson() {
+        File path = null;
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        if(chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION){
+            path = chooser.getSelectedFile();
+        }
+        new JSONLoader(path);
+        numberArray = JSONLoader.getNumberArray();
+        reset();
     }
 }

@@ -60,6 +60,11 @@ public class NumberArray {
         numbersCopy = Arrays.copyOf(numbers, numbers.length);
     }
 
+    public void setNumbers(int[] numbers) {
+        this.numbers = numbers;
+        numbersCopy = Arrays.copyOf(numbers, numbers.length);
+    }
+
     public NumberArray(int n){
         init(n);
     }
