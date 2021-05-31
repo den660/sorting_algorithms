@@ -37,9 +37,9 @@ public class JSONLoader {
             numbers = new int[jsonSize];
             for(int k=0; k<jsonSize; k++){
                 numbers[k]=jsonArray[k];
-                System.out.println(numbers[k]);
             }
             numberArray.setNumbers(numbers);
+
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
